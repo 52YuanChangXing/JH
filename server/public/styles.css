@@ -41,6 +41,10 @@ a {
   text-decoration: none;
 }
 
+.is-hidden {
+  display: none !important;
+}
+
 .page {
   min-height: 100vh;
   display: flex;

@@ -6,6 +6,18 @@
     "ctaPrimary": "立即预约",
     "ctaSecondary": "浏览作品集"
   },
+  "featureToggles": {
+    "hero": true,
+    "values": true,
+    "portfolio": true,
+    "services": true,
+    "photographers": true,
+    "testimonials": true,
+    "booking": true,
+    "progress": true,
+    "faq": true,
+    "contact": true
+  },
   "studioValues": [
     {
       "title": "顶级器材配置",

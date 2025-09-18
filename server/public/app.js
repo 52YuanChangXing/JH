@@ -356,6 +356,35 @@ function applyMetrics(metrics = {}) {
   document.querySelector('[data-metric="teamMembers"]').textContent = metrics.teamMembers ?? '—';
 }
 
+function applyFeatureToggles(toggles = {}) {
+  const sectionMap = {
+    hero: document.getElementById('hero'),
+    values: document.getElementById('values'),
+    portfolio: document.getElementById('portfolio'),
+    services: document.getElementById('services'),
+    photographers: document.getElementById('photographers'),
+    testimonials: document.getElementById('testimonials'),
+    booking: document.getElementById('booking'),
+    progress: document.getElementById('progress'),
+    faq: document.getElementById('faq'),
+    contact: document.getElementById('contact')
+  };
+
+  Object.entries(sectionMap).forEach(([key, element]) => {
+    if (!element) {
+      return;
+    }
+    const enabled = toggles[key] !== false;
+    element.classList.toggle('is-hidden', !enabled);
+  });
+
+  document.querySelectorAll('[data-section-target]').forEach(link => {
+    const target = link.getAttribute('data-section-target');
+    const enabled = toggles[target] !== false;
+    link.classList.toggle('is-hidden', !enabled);
+  });
+}
+
 async function init() {
   document.getElementById('current-year').textContent = new Date().getFullYear();
   const bookingForm = document.getElementById('booking-form');
@@ -364,6 +393,7 @@ async function init() {
   try {
     const [content] = await Promise.all([fetchJSON(endpoints.content)]);
     state.content = content;
+    applyFeatureToggles(content.featureToggles);
     applyHeroContent(content.hero);
     applyMetrics(content.metrics);
     renderStudioValues(content.studioValues);

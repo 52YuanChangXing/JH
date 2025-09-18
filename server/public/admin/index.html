@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>简浩影视后台控制中心</title>
+    <link rel="stylesheet" href="./admin.css" />
+  </head>
+  <body>
+    <div class="admin-app">
+      <header class="admin-header">
+        <div>
+          <h1>简浩影视 · 后台控制中心</h1>
+          <p>管理站点内容、组件开关与项目进度，让前端体验始终保持最新。</p>
+        </div>
+        <button type="button" id="logout-button" class="ghost is-hidden">退出登录</button>
+      </header>
+
+      <div class="global-feedback" id="global-feedback"></div>
+
+      <main class="admin-main">
+        <section class="card" id="auth-card">
+          <h2>管理员登录</h2>
+          <p>输入后台令牌以继续管理站点。默认令牌为 <code>jianhao-admin-secret</code>，建议上线前通过环境变量 <code>ADMIN_TOKEN</code> 修改。</p>
+          <form id="token-form" class="form-grid">
+            <label for="admin-token">管理令牌</label>
+            <input type="password" id="admin-token" placeholder="请输入令牌" required />
+            <button type="submit" class="primary">登录后台</button>
+            <p class="form-hint">令牌会存储在浏览器的本地缓存中，点击右上角“退出登录”可立即清除。</p>
+            <p class="form-feedback" id="auth-feedback"></p>
+          </form>
+        </section>
+
+        <section class="dashboard-grid is-hidden" id="admin-panels">
+          <article class="panel" id="hero-panel">
+            <h3>首页英雄区</h3>
+            <p class="panel-description">实时修改站点首屏文案与按钮文案，前端页面将自动同步。</p>
+            <form id="hero-form" class="form-grid">
+              <label for="hero-tagline-input">标语</label>
+              <input id="hero-tagline-input" name="tagline" placeholder="以光影铭记每一个珍贵瞬间" />
+
+              <label for="hero-title-input">标题</label>
+              <input id="hero-title-input" name="title" placeholder="简浩影视 · 全案影像体验" />
+
+              <label for="hero-description-input">描述</label>
+              <textarea id="hero-description-input" name="description" rows="3"></textarea>
+
+              <div class="form-row">
+                <div>
+                  <label for="hero-primary-input">主按钮</label>
+                  <input id="hero-primary-input" name="ctaPrimary" placeholder="立即预约" />
+                </div>
+                <div>
+                  <label for="hero-secondary-input">次按钮</label>
+                  <input id="hero-secondary-input" name="ctaSecondary" placeholder="浏览作品集" />
+                </div>
+              </div>
+
+              <div class="form-actions">
+                <button type="submit" class="primary">保存英雄区</button>
+              </div>
+              <p class="form-feedback" id="hero-feedback"></p>
+            </form>
+          </article>
+
+          <article class="panel" id="metrics-panel">
+            <h3>品牌指标</h3>
+            <form id="metrics-form" class="form-grid">
+              <div class="form-row">
+                <div>
+                  <label for="metric-projects">项目总数</label>
+                  <input type="number" id="metric-projects" name="projects" min="0" />
+                </div>
+                <div>
+                  <label for="metric-awards">奖项数量</label>
+                  <input type="number" id="metric-awards" name="awards" min="0" />
+                </div>
+              </div>
+              <div class="form-row">
+                <div>
+                  <label for="metric-satisfaction">满意度 (%)</label>
+                  <input type="number" id="metric-satisfaction" name="satisfaction" min="0" max="100" />
+                </div>
+                <div>
+                  <label for="metric-team">核心成员</label>
+                  <input type="number" id="metric-team" name="teamMembers" min="0" />
+                </div>
+              </div>
+              <div class="form-actions">
+                <button type="submit" class="primary">更新指标</button>
+              </div>
+              <p class="form-feedback" id="metrics-feedback"></p>
+            </form>
+          </article>
+
+          <article class="panel" id="toggle-panel">
+            <h3>功能组件开关</h3>
+            <p class="panel-description">在不开发的情况下，快速决定前端页面展示哪些板块。</p>
+            <form id="toggle-form" class="form-grid">
+              <div class="toggle-grid" id="toggle-grid"></div>
+              <div class="form-actions">
+                <button type="submit" class="primary">更新功能开关</button>
+              </div>
+              <p class="form-feedback" id="toggle-feedback"></p>
+            </form>
+          </article>
+
+          <article class="panel" id="collection-panel">
+            <h3>列表内容管理</h3>
+            <p class="panel-description">以 JSON 形式批量维护作品、服务、团队等模块，也可追加/删除单个条目。</p>
+            <form id="collection-form" class="form-grid">
+              <label for="collection-select">选择集合</label>
+              <select id="collection-select"></select>
+
+              <label for="collection-json">集合内容（JSON 数组）</label>
+              <textarea id="collection-json" rows="6" spellcheck="false"></textarea>
+              <div class="form-actions">
+                <button type="submit" class="primary">保存集合</button>
+              </div>
+              <p class="form-feedback" id="collection-feedback"></p>
+            </form>
+
+            <form id="collection-item-form" class="form-grid">
+              <label for="collection-item-json">新增条目（JSON 对象）</label>
+              <textarea id="collection-item-json" rows="4" spellcheck="false" placeholder='{"title":"全新案例"}'></textarea>
+              <div class="form-actions">
+                <button type="submit" class="secondary">追加条目</button>
+              </div>
+              <p class="form-feedback" id="collection-item-feedback"></p>
+            </form>
+
+            <form id="collection-delete-form" class="form-grid">
+              <label for="collection-delete-id">删除条目 ID / 索引</label>
+              <input id="collection-delete-id" placeholder="例如：p3 或 0" />
+              <div class="form-actions">
+                <button type="submit" class="danger">删除条目</button>
+              </div>
+              <p class="form-feedback" id="collection-delete-feedback"></p>
+            </form>
+          </article>
+
+          <article class="panel panel-wide" id="content-panel">
+            <h3>整站配置文件</h3>
+            <p class="panel-description">需要时可一次性覆盖 <code>static-content.json</code>，适合从外部系统导出内容后导入。</p>
+            <form id="content-form" class="form-grid">
+              <label for="content-json">站点内容 JSON</label>
+              <textarea id="content-json" rows="14" spellcheck="false"></textarea>
+              <div class="form-actions">
+                <button type="submit" class="primary">覆盖站点内容</button>
+              </div>
+              <p class="form-feedback" id="content-feedback"></p>
+            </form>
+          </article>
+
+          <article class="panel panel-wide" id="bookings-panel">
+            <h3>预约与进度</h3>
+            <p class="panel-description">查看最新预约并更新项目阶段，客户前端的进度看板会实时刷新。</p>
+            <div id="booking-list" class="booking-list"></div>
+          </article>
+        </section>
+      </main>
+
+      <footer class="admin-footer">
+        <p>© 简浩影视 Jianhao Film Studio · 后台系统 · 默认管理令牌 <code>jianhao-admin-secret</code></p>
+      </footer>
+    </div>
+
+    <script src="./admin.js" type="module"></script>
+  </body>
+</html>
