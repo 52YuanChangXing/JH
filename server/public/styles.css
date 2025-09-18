@@ -11,7 +11,7 @@
   --radius-large: 32px;
   --radius-medium: 20px;
   --radius-small: 12px;
-  --max-width: 1240px;
+  --max-width: 1320px;
   --transition: all 0.3s ease;
 }
 
@@ -31,6 +31,10 @@ body {
   line-height: 1.6;
 }
 
+body.nav-open {
+  overflow: hidden;
+}
+
 img {
   max-width: 100%;
   display: block;
@@ -41,63 +45,85 @@ a {
   text-decoration: none;
 }
 
+.container {
+  width: min(100%, var(--max-width));
+  margin: 0 auto;
+  padding: 0 32px;
+}
+
+.section-block {
+  position: relative;
+}
+
+.section-inner {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.section-head {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.section-head--split {
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 32px;
+}
+
+.section-head > * {
+  margin: 0;
+}
+
+.section-head .section-subtitle {
+  color: var(--accent);
+}
+
+.section-body {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
 .is-hidden {
   display: none !important;
 }
+
 
 .page {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  gap: 120px;
+  gap: 96px;
 }
 
 main {
   display: flex;
   flex-direction: column;
-  gap: 120px;
+  gap: 96px;
 }
 
 section {
-  width: min(100%, var(--max-width));
-  margin: 0 auto;
-  padding: 0 24px;
+  width: 100%;
 }
 
-.hero {
-  position: relative;
-  width: min(100%, var(--max-width));
-  margin: 0 auto;
-  padding: 48px 24px 120px;
-  display: flex;
-  flex-direction: column;
-  gap: 64px;
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  padding: 28px 0 18px;
+  background: linear-gradient(180deg, rgba(9, 11, 23, 0.92), rgba(9, 11, 23, 0));
+  backdrop-filter: blur(16px);
 }
 
-.hero::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  margin: 24px;
-  border-radius: calc(var(--radius-large) * 1.2);
-  background: linear-gradient(120deg, rgba(143, 78, 247, 0.35), rgba(72, 209, 204, 0.18));
-  filter: blur(60px);
-  z-index: -2;
-}
-
-.hero::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(160deg, rgba(8, 10, 24, 0.92), rgba(11, 18, 40, 0.75));
-  border-radius: calc(var(--radius-large) * 1.2);
-  z-index: -1;
-}
-
-.nav {
+.site-header__inner {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 24px;
 }
 
 .logo {
@@ -108,12 +134,35 @@ section {
   color: var(--text-primary);
 }
 
-.nav-actions {
+.nav-toggle {
+  display: none;
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--text-primary);
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  flex-direction: column;
+  transition: var(--transition);
+}
+
+.nav-toggle span {
+  display: block;
+  width: 18px;
+  height: 2px;
+  border-radius: 999px;
+  background: currentColor;
+}
+
+.nav {
   display: flex;
   align-items: center;
   gap: 20px;
   background: rgba(255, 255, 255, 0.04);
-  padding: 12px 20px;
+  padding: 12px 24px;
   border-radius: 999px;
   border: 1px solid var(--border);
   backdrop-filter: blur(12px);
@@ -134,11 +183,53 @@ section {
   background: linear-gradient(120deg, #8f4ef7, #47d9c2);
   color: #0b0f1d;
   font-weight: 600;
-  padding: 8px 16px;
+  padding: 8px 18px;
   border-radius: 999px;
 }
 
+.hero {
+  position: relative;
+  padding-bottom: 140px;
+}
+
+.hero-surface {
+  position: relative;
+  width: min(100%, var(--max-width));
+  margin: 0 auto;
+  padding: 72px 40px 160px;
+  border-radius: calc(var(--radius-large) * 1.15);
+  overflow: hidden;
+}
+
+.hero-surface::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  margin: 24px;
+  border-radius: inherit;
+  background: linear-gradient(120deg, rgba(143, 78, 247, 0.35), rgba(72, 209, 204, 0.18));
+  filter: blur(70px);
+  z-index: -2;
+}
+
+.hero-surface::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(160deg, rgba(8, 10, 24, 0.92), rgba(11, 18, 40, 0.75));
+  z-index: -1;
+}
+
+.hero-inner {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 48px;
+  align-items: center;
+}
+
 .hero-content {
+  grid-column: span 7;
   max-width: 720px;
   display: flex;
   flex-direction: column;
@@ -163,6 +254,40 @@ section {
   font-size: 18px;
   color: var(--text-secondary);
   max-width: 640px;
+}
+
+.hero-aside {
+  grid-column: span 5;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.hero-metrics {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.hero-snapshot {
+  padding: 24px;
+  border-radius: var(--radius-medium);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  background: linear-gradient(160deg, rgba(143, 78, 247, 0.18), rgba(10, 14, 28, 0.6));
+  box-shadow: 0 24px 60px rgba(8, 12, 36, 0.45);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.hero-snapshot h3 {
+  margin: 0;
+  color: var(--text-primary);
+}
+
+.hero-snapshot span {
+  color: var(--text-primary);
+  font-weight: 600;
 }
 
 .hero-actions {
@@ -209,8 +334,8 @@ section {
 
 .hero-metrics {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-  gap: 20px;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 18px;
 }
 
 .metric-card {
@@ -234,7 +359,7 @@ section {
 .section-title {
   font-size: clamp(32px, 4vw, 48px);
   color: var(--text-primary);
-  margin-bottom: 24px;
+  margin: 0;
 }
 
 .section-subtitle {
@@ -449,15 +574,16 @@ section {
   color: var(--text-primary);
 }
 
-.booking {
+.booking .section-inner {
   background: rgba(255, 255, 255, 0.02);
   border-radius: calc(var(--radius-large) * 1.1);
   padding: 64px 48px;
   border: 1px solid var(--border);
   box-shadow: var(--shadow);
+  gap: 48px;
 }
 
-.booking-content {
+.booking-layout {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
   gap: 48px;
@@ -466,6 +592,7 @@ section {
 .booking-description {
   color: var(--text-secondary);
   margin-bottom: 24px;
+  font-size: 16px;
 }
 
 .booking-highlights {
@@ -711,7 +838,7 @@ section {
   display: block;
 }
 
-.contact {
+.contact-layout {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
   gap: 40px;
@@ -753,9 +880,13 @@ section {
 }
 
 .footer {
+  padding: 0 0 48px;
+}
+
+.footer-container {
   width: min(100%, var(--max-width));
-  margin: 0 auto 48px;
-  padding: 0 24px;
+  margin: 0 auto;
+  padding: 0 32px;
   display: flex;
   flex-direction: column;
   gap: 32px;
@@ -778,21 +909,55 @@ section {
 }
 
 @media (max-width: 960px) {
-  .nav-actions {
-    display: none;
+  .container {
+    padding: 0 24px;
   }
 
-  .page,
-  main {
-    gap: 96px;
+  .site-header {
+    padding: 20px 0 12px;
   }
 
-  .hero {
-    padding: 36px 20px 100px;
+  .nav-toggle {
+    display: flex;
   }
 
-  .hero-metrics {
-    grid-template-columns: repeat(2, 1fr);
+  .nav {
+    position: absolute;
+    top: 72px;
+    right: 24px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+    width: min(280px, calc(100% - 48px));
+    border-radius: 20px;
+    padding: 20px;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(-12px);
+  }
+
+  .nav.open {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0);
+  }
+
+  .hero-surface {
+    padding: 56px 28px 120px;
+  }
+
+  .hero-inner {
+    grid-template-columns: 1fr;
+  }
+
+  .hero-content,
+  .hero-aside {
+    grid-column: span 12;
+  }
+
+  .section-head--split {
+    flex-direction: column;
+    align-items: flex-start;
   }
 
   .progress-layout {
@@ -805,7 +970,7 @@ section {
 }
 
 @media (max-width: 640px) {
-  section {
+  .container {
     padding: 0 18px;
   }
 
@@ -816,6 +981,10 @@ section {
 
   .hero-title {
     font-size: clamp(36px, 9vw, 56px);
+  }
+
+  .hero-surface {
+    padding: 48px 20px 100px;
   }
 
   .hero-metrics {
@@ -829,7 +998,11 @@ section {
     grid-template-columns: 1fr;
   }
 
-  .booking {
+  .booking .section-inner {
     padding: 48px 24px;
+  }
+
+  .booking-layout {
+    gap: 32px;
   }
 }

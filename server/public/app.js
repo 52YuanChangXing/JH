@@ -37,6 +37,44 @@ function createElement(tag, className, innerHTML) {
   return el;
 }
 
+function setupNavigation() {
+  const toggle = document.getElementById('nav-toggle');
+  const menu = document.getElementById('nav-menu');
+  if (!toggle || !menu) {
+    return;
+  }
+
+  const closeMenu = () => {
+    menu.classList.remove('open');
+    toggle.setAttribute('aria-expanded', 'false');
+    document.body.classList.remove('nav-open');
+  };
+
+  toggle.addEventListener('click', () => {
+    const isExpanded = toggle.getAttribute('aria-expanded') === 'true';
+    const nextState = !isExpanded;
+    toggle.setAttribute('aria-expanded', String(nextState));
+    menu.classList.toggle('open', nextState);
+    document.body.classList.toggle('nav-open', nextState);
+  });
+
+  menu.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', () => {
+      if (menu.classList.contains('open')) {
+        closeMenu();
+      }
+    });
+  });
+
+  window.addEventListener('resize', () => {
+    if (window.innerWidth > 960 && menu.classList.contains('open')) {
+      closeMenu();
+    }
+  });
+
+  window.addEventListener('orientationchange', closeMenu);
+}
+
 function renderStudioValues(values = []) {
   const grid = document.getElementById('value-grid');
   grid.innerHTML = '';
@@ -296,6 +334,34 @@ function renderProgressDetail(booking, content) {
   panel.appendChild(timeline);
 }
 
+function updateHeroSnapshot() {
+  const countEl = document.getElementById('hero-booking-count');
+  const lastUpdateEl = document.getElementById('hero-last-update');
+  if (!countEl || !lastUpdateEl) {
+    return;
+  }
+
+  countEl.textContent = String(state.bookings.length || 0);
+
+  const allProgress = state.bookings.reduce((acc, booking) => {
+    if (Array.isArray(booking.progress)) {
+      return acc.concat(booking.progress);
+    }
+    return acc;
+  }, []);
+
+  if (!allProgress.length) {
+    lastUpdateEl.textContent = '待同步';
+    return;
+  }
+
+  allProgress.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+  const latest = allProgress[0];
+  const stage = state.content?.timelineStages?.find(item => item.id === latest.stage);
+  const stageName = stage ? stage.name : state.statusLabels[latest.stage] || latest.stage;
+  lastUpdateEl.textContent = `${stageName} · ${new Date(latest.timestamp).toLocaleDateString()}`;
+}
+
 async function loadBookings(content) {
   state.bookings = await fetchJSON(endpoints.bookings);
   if (state.bookings.length) {
@@ -303,6 +369,7 @@ async function loadBookings(content) {
   }
   renderKanban(content);
   renderProgressDetail(state.bookings.find(item => item.id === state.selectedBookingId), content);
+  updateHeroSnapshot();
 }
 
 async function loadDashboard() {
@@ -332,8 +399,11 @@ async function handleBookingSubmit(event) {
     feedback.classList.add('success');
     form.reset();
     state.bookings.push(created);
+    state.selectedBookingId = created.id;
     await loadDashboard();
     renderKanban(state.content);
+    renderProgressDetail(state.bookings.find(item => item.id === state.selectedBookingId), state.content);
+    updateHeroSnapshot();
   } catch (error) {
     feedback.textContent = '预约提交失败，请稍后重试或通过电话联系。';
     feedback.classList.add('error');
@@ -387,6 +457,7 @@ function applyFeatureToggles(toggles = {}) {
 
 async function init() {
   document.getElementById('current-year').textContent = new Date().getFullYear();
+  setupNavigation();
   const bookingForm = document.getElementById('booking-form');
   bookingForm.addEventListener('submit', handleBookingSubmit);
 

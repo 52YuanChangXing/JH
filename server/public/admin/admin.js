@@ -7,7 +7,9 @@ const state = {
 const elements = {
   authCard: document.getElementById('auth-card'),
   adminPanels: document.getElementById('admin-panels'),
+  adminOverview: document.getElementById('admin-overview'),
   logoutButton: document.getElementById('logout-button'),
+  panelNav: document.getElementById('panel-nav'),
   globalFeedback: document.getElementById('global-feedback'),
   tokenForm: document.getElementById('token-form'),
   tokenInput: document.getElementById('admin-token'),
@@ -32,8 +34,14 @@ const elements = {
   contentForm: document.getElementById('content-form'),
   contentTextarea: document.getElementById('content-json'),
   contentFeedback: document.getElementById('content-feedback'),
-  bookingList: document.getElementById('booking-list')
+  bookingList: document.getElementById('booking-list'),
+  overviewFeatureCount: document.getElementById('overview-feature-count'),
+  overviewLibraryCount: document.getElementById('overview-library-count'),
+  overviewBookingCount: document.getElementById('overview-booking-count'),
+  syncIndicator: document.getElementById('sync-indicator')
 };
+
+let panelObserver = null;
 
 const collectionLabels = {
   studioValues: '品牌价值主张',
@@ -70,6 +78,101 @@ function showFeedback(el, message, type = '') {
   el.className = `form-feedback${type ? ` ${type}` : ''}`;
 }
 
+function setSyncStatus(status, label) {
+  if (!elements.syncIndicator) return;
+  const statusClass =
+    status === 'ready' ? 'ready' : status === 'error' ? 'error' : status === 'loading' ? 'loading' : '';
+  const defaultLabel =
+    status === 'ready' ? '已同步' : status === 'error' ? '同步失败' : status === 'loading' ? '同步中…' : '待登录';
+  elements.syncIndicator.textContent = label || defaultLabel;
+  elements.syncIndicator.className = `sync-indicator${statusClass ? ` ${statusClass}` : ''}`;
+}
+
+function toggleSidebarState(enabled) {
+  if (!elements.panelNav) return;
+  elements.panelNav.querySelectorAll('button').forEach(button => {
+    button.disabled = !enabled;
+    button.setAttribute('aria-disabled', String(!enabled));
+  });
+}
+
+function setActiveSidebarLink(targetId) {
+  if (!elements.panelNav) return;
+  elements.panelNav
+    .querySelectorAll('.sidebar-link')
+    .forEach(button => button.classList.toggle('active', button.dataset.target === targetId));
+}
+
+function scrollToPanel(panelId) {
+  const panel = document.getElementById(panelId);
+  if (!panel) return;
+  panel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function initPanelObserver() {
+  if (!elements.panelNav) return;
+  if (!state.token || !state.content) {
+    if (panelObserver) {
+      panelObserver.disconnect();
+      panelObserver = null;
+    }
+    return;
+  }
+  const panels = document.querySelectorAll('#admin-panels .panel');
+  if (!panels.length) return;
+
+  if (panelObserver) {
+    panelObserver.disconnect();
+  }
+
+  panelObserver = new IntersectionObserver(
+    entries => {
+      const visible = entries
+        .filter(entry => entry.isIntersecting)
+        .sort((a, b) => a.target.getBoundingClientRect().top - b.target.getBoundingClientRect().top);
+      if (visible.length) {
+        setActiveSidebarLink(visible[0].target.id);
+      }
+    },
+    {
+      root: null,
+      rootMargin: '-35% 0px -55% 0px',
+      threshold: 0.2
+    }
+  );
+
+  panels.forEach(panel => panelObserver.observe(panel));
+}
+
+function updateOverviewStats() {
+  if (!elements.adminOverview) return;
+  const hasContent = Boolean(state.content);
+  elements.adminOverview.classList.toggle('is-hidden', !state.token || !hasContent);
+
+  if (!hasContent) {
+    if (elements.overviewFeatureCount) elements.overviewFeatureCount.textContent = '0';
+    if (elements.overviewLibraryCount) elements.overviewLibraryCount.textContent = '0';
+    if (elements.overviewBookingCount) elements.overviewBookingCount.textContent = String(state.bookings.length || 0);
+    return;
+  }
+
+  const toggles = state.content.featureToggles || {};
+  const enabledCount = Object.keys(toggleLabels).reduce((acc, key) => acc + (toggles[key] !== false ? 1 : 0), 0);
+  if (elements.overviewFeatureCount) {
+    elements.overviewFeatureCount.textContent = String(enabledCount);
+  }
+
+  const arrayKeys = Object.keys(state.content).filter(key => Array.isArray(state.content[key]));
+  const totalItems = arrayKeys.reduce((sum, key) => sum + (state.content[key]?.length || 0), 0);
+  if (elements.overviewLibraryCount) {
+    elements.overviewLibraryCount.textContent = String(totalItems);
+  }
+
+  if (elements.overviewBookingCount) {
+    elements.overviewBookingCount.textContent = String(state.bookings.length || 0);
+  }
+}
+
 function setToken(token) {
   state.token = token;
   if (token) {
@@ -81,11 +184,22 @@ function setToken(token) {
 }
 
 function updateAuthUI(isAuthenticated) {
+  const hasContent = Boolean(state.content);
   elements.authCard.classList.toggle('is-hidden', isAuthenticated);
-  elements.adminPanels.classList.toggle('is-hidden', !isAuthenticated);
+  if (elements.adminPanels) {
+    elements.adminPanels.classList.toggle('is-hidden', !(isAuthenticated && hasContent));
+  }
   elements.logoutButton.classList.toggle('is-hidden', !isAuthenticated);
+  updateOverviewStats();
+  toggleSidebarState(isAuthenticated && hasContent);
   if (!isAuthenticated) {
     showGlobalFeedback('请输入有效令牌以管理站点内容。');
+    setSyncStatus('idle');
+    setActiveSidebarLink('hero-panel');
+    if (panelObserver) {
+      panelObserver.disconnect();
+      panelObserver = null;
+    }
   }
 }
 
@@ -306,6 +420,8 @@ function renderBookings() {
 
       elements.bookingList.appendChild(card);
     });
+
+  updateOverviewStats();
 }
 
 function refreshEditors() {
@@ -315,6 +431,8 @@ function refreshEditors() {
   updateCollectionOptions();
   updateContentTextarea();
   renderBookings();
+  updateOverviewStats();
+  initPanelObserver();
 }
 
 async function loadInitialData() {
@@ -324,6 +442,7 @@ async function loadInitialData() {
   }
   try {
     showGlobalFeedback('正在同步站点内容与预约数据…');
+    setSyncStatus('loading');
     const [content, bookings] = await Promise.all([
       fetchWithAuth('/api/admin/content'),
       fetchPublic('/api/bookings')
@@ -333,20 +452,27 @@ async function loadInitialData() {
     updateAuthUI(true);
     refreshEditors();
     showGlobalFeedback('已加载最新内容，可开始编辑。', 'success');
+    setSyncStatus('ready', `已同步 · ${new Date().toLocaleTimeString()}`);
   } catch (error) {
     console.error(error);
     showGlobalFeedback(error.message || '后台登录失效，请重新输入令牌。', 'error');
+    setSyncStatus('error');
+    state.content = null;
+    state.bookings = [];
     setToken('');
   }
 }
 
 async function reloadContent() {
   try {
+    setSyncStatus('loading');
     const content = await fetchWithAuth('/api/admin/content');
     state.content = content;
     refreshEditors();
+    setSyncStatus('ready', `已同步 · ${new Date().toLocaleTimeString()}`);
   } catch (error) {
     showGlobalFeedback(error.message || '重新加载内容失败。', 'error');
+    setSyncStatus('error');
   }
 }
 
@@ -354,6 +480,7 @@ async function reloadBookings() {
   try {
     state.bookings = await fetchPublic('/api/bookings');
     renderBookings();
+    updateOverviewStats();
   } catch (error) {
     showGlobalFeedback(error.message || '刷新预约数据失败。', 'error');
   }
@@ -578,6 +705,18 @@ function bindEvents() {
       showFeedback(feedback, error.message || '更新失败', 'error');
     }
   });
+
+  if (elements.panelNav) {
+    elements.panelNav.addEventListener('click', event => {
+      const button = event.target.closest('button[data-target]');
+      if (!button || button.disabled) {
+        return;
+      }
+      const targetId = button.dataset.target;
+      setActiveSidebarLink(targetId);
+      scrollToPanel(targetId);
+    });
+  }
 }
 
 function init() {

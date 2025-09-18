@@ -8,32 +8,71 @@
     <link rel="stylesheet" href="./admin.css" />
   </head>
   <body>
-    <div class="admin-app">
-      <header class="admin-header">
-        <div>
-          <h1>简浩影视 · 后台控制中心</h1>
-          <p>管理站点内容、组件开关与项目进度，让前端体验始终保持最新。</p>
+    <div class="admin-shell">
+      <aside class="admin-sidebar">
+        <div class="sidebar-header">
+          <div class="sidebar-logo">简浩影视后台</div>
+          <p>实时维护前端站点的文案、组件与预约流程。</p>
         </div>
-        <button type="button" id="logout-button" class="ghost is-hidden">退出登录</button>
-      </header>
+        <nav class="sidebar-nav" id="panel-nav">
+          <button type="button" class="sidebar-link active" data-target="hero-panel">首页英雄区</button>
+          <button type="button" class="sidebar-link" data-target="metrics-panel">品牌指标</button>
+          <button type="button" class="sidebar-link" data-target="toggle-panel">组件开关</button>
+          <button type="button" class="sidebar-link" data-target="collection-panel">列表内容</button>
+          <button type="button" class="sidebar-link" data-target="content-panel">整站配置</button>
+          <button type="button" class="sidebar-link" data-target="bookings-panel">预约与进度</button>
+        </nav>
+        <div class="sidebar-footer">
+          <p>默认令牌 <code>jianhao-admin-secret</code></p>
+          <button type="button" id="logout-button" class="ghost small is-hidden">退出登录</button>
+        </div>
+      </aside>
 
-      <div class="global-feedback" id="global-feedback"></div>
+      <div class="admin-surface">
+        <div class="admin-app">
+          <header class="admin-header">
+            <div>
+              <h1>简浩影视 · 后台控制中心</h1>
+              <p>通过后台与前端实时联动，保持内容、组件与客户进度的统一。</p>
+            </div>
+            <span class="sync-indicator" id="sync-indicator">待登录</span>
+          </header>
 
-      <main class="admin-main">
-        <section class="card" id="auth-card">
-          <h2>管理员登录</h2>
-          <p>输入后台令牌以继续管理站点。默认令牌为 <code>jianhao-admin-secret</code>，建议上线前通过环境变量 <code>ADMIN_TOKEN</code> 修改。</p>
-          <form id="token-form" class="form-grid">
-            <label for="admin-token">管理令牌</label>
-            <input type="password" id="admin-token" placeholder="请输入令牌" required />
-            <button type="submit" class="primary">登录后台</button>
-            <p class="form-hint">令牌会存储在浏览器的本地缓存中，点击右上角“退出登录”可立即清除。</p>
-            <p class="form-feedback" id="auth-feedback"></p>
-          </form>
-        </section>
+          <div class="global-feedback" id="global-feedback"></div>
 
-        <section class="dashboard-grid is-hidden" id="admin-panels">
-          <article class="panel" id="hero-panel">
+          <section class="admin-overview is-hidden" id="admin-overview">
+            <article class="overview-card">
+              <span>启用板块</span>
+              <strong id="overview-feature-count">0</strong>
+              <small>前端实时展示</small>
+            </article>
+            <article class="overview-card">
+              <span>内容集合</span>
+              <strong id="overview-library-count">0</strong>
+              <small>作品 / 服务 / 团队</small>
+            </article>
+            <article class="overview-card">
+              <span>在案预约</span>
+              <strong id="overview-booking-count">0</strong>
+              <small>含最新进度</small>
+            </article>
+          </section>
+
+          <main class="admin-main">
+            <section class="card" id="auth-card">
+              <h2>管理员登录</h2>
+              <p>输入后台令牌以继续管理站点。默认令牌为 <code>jianhao-admin-secret</code>，建议上线前通过环境变量 <code>ADMIN_TOKEN</code> 修改。</p>
+              <form id="token-form" class="form-grid">
+                <label for="admin-token">管理令牌</label>
+                <input type="password" id="admin-token" placeholder="请输入令牌" required />
+                <button type="submit" class="primary">登录后台</button>
+                <p class="form-hint">令牌会存储在浏览器的本地缓存中，点击左侧栏“退出登录”可立即清除。</p>
+                <p class="form-feedback" id="auth-feedback"></p>
+              </form>
+            </section>
+
+            <section class="dashboard-grid is-hidden" id="admin-panels">
+              <article class="panel" id="hero-panel">
             <h3>首页英雄区</h3>
             <p class="panel-description">实时修改站点首屏文案与按钮文案，前端页面将自动同步。</p>
             <form id="hero-form" class="form-grid">
@@ -165,6 +204,8 @@
         <p>© 简浩影视 Jianhao Film Studio · 后台系统 · 默认管理令牌 <code>jianhao-admin-secret</code></p>
       </footer>
     </div>
+  </div>
+</div>
 
     <script src="./admin.js" type="module"></script>
   </body>
