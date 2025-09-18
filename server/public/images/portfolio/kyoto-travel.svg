@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800">
+  <defs>
+    <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#8360c3"/>
+      <stop offset="100%" stop-color="#2ebf91"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="800" fill="url(#grad)" rx="48"/>
+  <text x="80" y="360" font-family="'PingFang SC', 'Microsoft YaHei', sans-serif" font-size="96" fill="rgba(255,255,255,0.92)" font-weight="600">京都和风旅拍</text>
+  <text x="80" y="460" font-family="'PingFang SC', 'Microsoft YaHei', sans-serif" font-size="46" fill="rgba(255,255,255,0.85)">KYOTO SERENITY</text>
+  <text x="80" y="560" font-family="'PingFang SC', 'Microsoft YaHei', sans-serif" font-size="32" fill="rgba(255,255,255,0.8)">晨雾·古都·花见小路</text>
+</svg>

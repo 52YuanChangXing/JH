@@ -1,0 +1,67 @@
+[
+  {
+    "id": "bk-20240101",
+    "clientName": "陈晨",
+    "email": "chenchen@example.com",
+    "phone": "+86 139 1111 2222",
+    "serviceId": "sv1",
+    "serviceName": "定制婚礼影像",
+    "eventDate": "2025-05-28",
+    "location": "三亚海棠湾",
+    "status": "editing",
+    "createdAt": "2025-01-08T10:16:00.000Z",
+    "notes": "新人希望加入父母采访片段",
+    "progress": [
+      {
+        "stage": "consultation",
+        "timestamp": "2025-01-10T09:00:00.000Z",
+        "note": "完成婚礼风格确认，确定星光主题"
+      },
+      {
+        "stage": "shooting",
+        "timestamp": "2025-05-28T22:30:00.000Z",
+        "note": "婚礼全程拍摄完成"
+      },
+      {
+        "stage": "editing",
+        "timestamp": "2025-05-30T13:45:00.000Z",
+        "note": "进入音乐设计阶段"
+      }
+    ]
+  },
+  {
+    "id": "bk-20240212",
+    "clientName": "OneStep 品牌",
+    "email": "brand@onestep.com",
+    "phone": "+86 180 5555 6666",
+    "serviceId": "sv3",
+    "serviceName": "品牌商业大片",
+    "eventDate": "2025-03-12",
+    "location": "上海外滩",    
+    "status": "delivery",
+    "createdAt": "2025-02-12T14:30:00.000Z",
+    "notes": "需要 30 秒、60 秒两个版本",
+    "progress": [
+      {
+        "stage": "consultation",
+        "timestamp": "2025-02-15T11:00:00.000Z",
+        "note": "完成剧本与分镜确认"
+      },
+      {
+        "stage": "shooting",
+        "timestamp": "2025-03-12T21:00:00.000Z",
+        "note": "外滩夜景收官镜头完成"
+      },
+      {
+        "stage": "editing",
+        "timestamp": "2025-03-20T16:20:00.000Z",
+        "note": "完成调色与音效设计"
+      },
+      {
+        "stage": "delivery",
+        "timestamp": "2025-03-22T09:15:00.000Z",
+        "note": "客户通过线上云盘收片"
+      }
+    ]
+  }
+]

@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800">
+  <defs>
+    <linearGradient id="grad" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#ff9a9e"/>
+      <stop offset="50%" stop-color="#fad0c4"/>
+      <stop offset="100%" stop-color="#fad0c4"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="800" fill="url(#grad)" rx="48"/>
+  <text x="80" y="360" font-family="'PingFang SC', 'Microsoft YaHei', sans-serif" font-size="96" fill="rgba(255,255,255,0.95)" font-weight="600">亲子成长记忆</text>
+  <text x="80" y="460" font-family="'PingFang SC', 'Microsoft YaHei', sans-serif" font-size="46" fill="rgba(255,255,255,0.85)">FAMILY CHRONICLE</text>
+  <text x="80" y="560" font-family="'PingFang SC', 'Microsoft YaHei', sans-serif" font-size="32" fill="rgba(255,255,255,0.85)">纪录片式叙事 · 日常温度</text>
+</svg>

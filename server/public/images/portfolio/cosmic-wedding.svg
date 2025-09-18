@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800">
+  <defs>
+    <radialGradient id="grad" cx="50%" cy="50%" r="75%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.9"/>
+      <stop offset="45%" stop-color="#654ea3" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#eaafc8" stop-opacity="0.95"/>
+    </radialGradient>
+  </defs>
+  <rect width="1200" height="800" fill="#28104e" rx="48"/>
+  <circle cx="600" cy="400" r="360" fill="url(#grad)" opacity="0.85"/>
+  <text x="80" y="360" font-family="'PingFang SC', 'Microsoft YaHei', sans-serif" font-size="96" fill="#ffffff" font-weight="600">星际主题婚礼</text>
+  <text x="80" y="460" font-family="'PingFang SC', 'Microsoft YaHei', sans-serif" font-size="46" fill="rgba(255,255,255,0.85)">COSMIC WEDDING</text>
+  <text x="80" y="560" font-family="'PingFang SC', 'Microsoft YaHei', sans-serif" font-size="32" fill="rgba(255,255,255,0.8)">AR 实景 · 银河漫游</text>
+</svg>

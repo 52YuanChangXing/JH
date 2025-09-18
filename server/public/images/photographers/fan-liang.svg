@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600">
+  <defs>
+    <linearGradient id="grad" x1="100%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#42275a"/>
+      <stop offset="100%" stop-color="#734b6d"/>
+    </linearGradient>
+  </defs>
+  <rect width="600" height="600" rx="180" fill="url(#grad)"/>
+  <text x="50%" y="55%" text-anchor="middle" font-family="'PingFang SC', 'Microsoft YaHei', sans-serif" font-size="160" fill="rgba(255,255,255,0.95)" font-weight="700">FL</text>
+  <text x="50%" y="78%" text-anchor="middle" font-family="'PingFang SC', 'Microsoft YaHei', sans-serif" font-size="48" fill="rgba(255,255,255,0.85)">Fan Liang</text>
+</svg>
