@@ -1,0 +1,20 @@
+# Node
+node_modules/
+dist/
+coverage/
+.env
+.env.local
+*.log
+.tmp/
+.DS_Store
+pnpm-lock.yaml
+package-lock.json
+apps/**/dist/
+apps/**/.turbo/
+playwright-report/
+
+# Prisma
+/apps/backend/prisma/*.db
+
+# Vite
+.vite/

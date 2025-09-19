@@ -1,0 +1,22 @@
+{
+  "name": "jianhao-studio-platform",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Monorepo for Jianhao Studio admin platform",
+  "workspaces": [
+    "apps/backend",
+    "apps/frontend"
+  ],
+  "scripts": {
+    "dev": "concurrently -k \"npm:dev --workspace apps/backend\" \"npm:dev --workspace apps/frontend\"",
+    "build": "npm run build --workspace apps/backend && npm run build --workspace apps/frontend",
+    "start": "concurrently -k \"npm:start --workspace apps/backend\" \"npm:start --workspace apps/frontend\"",
+    "db:migrate": "npm run db:migrate --workspace apps/backend",
+    "db:seed": "npm run db:seed --workspace apps/backend",
+    "lint": "concurrently \"npm run lint --workspace apps/backend\" \"npm run lint --workspace apps/frontend\"",
+    "test": "concurrently \"npm test --workspace apps/backend\" \"npm test --workspace apps/frontend\""
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}

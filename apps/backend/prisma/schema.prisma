@@ -1,0 +1,135 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("BACKEND_DATABASE_URL")
+}
+
+model User {
+  id            String         @id @default(cuid())
+  email         String         @unique
+  passwordHash  String
+  displayName   String
+  avatarUrl     String?
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  roles         UserRole[]
+  auditLogs     AuditLog[]
+  refreshTokens RefreshToken[]
+  projects      Project[]      @relation("ProjectOwner")
+  sessions      Session[]      @relation("SessionOwner")
+}
+
+model Role {
+  id          String           @id @default(cuid())
+  name        String           @unique
+  description String?
+  createdAt   DateTime         @default(now())
+  users       UserRole[]
+  permissions RolePermission[]
+}
+
+model Permission {
+  id          String           @id @default(cuid())
+  name        String           @unique
+  description String?
+  roles       RolePermission[]
+}
+
+model UserRole {
+  userId String
+  roleId String
+  assignedAt DateTime @default(now())
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  role   Role   @relation(fields: [roleId], references: [id], onDelete: Cascade)
+
+  @@id([userId, roleId])
+}
+
+model RolePermission {
+  roleId       String
+  permissionId String
+  grantedAt    DateTime @default(now())
+  role         Role       @relation(fields: [roleId], references: [id], onDelete: Cascade)
+  permission   Permission @relation(fields: [permissionId], references: [id], onDelete: Cascade)
+
+  @@id([roleId, permissionId])
+}
+
+model AuditLog {
+  id        String   @id @default(cuid())
+  action    String
+  entity    String
+  entityId  String
+  metadata  Json?
+  createdAt DateTime @default(now())
+  actorId   String?
+  actor     User?    @relation(fields: [actorId], references: [id])
+}
+
+model Project {
+  id          String    @id @default(cuid())
+  title       String
+  client      String
+  status      ProjectStatus @default(PLANNING)
+  budget      Float?
+  location    String?
+  scheduledAt DateTime?
+  notes       String?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  ownerId     String?
+  owner       User?     @relation("ProjectOwner", fields: [ownerId], references: [id])
+  sessions    Session[]
+}
+
+enum ProjectStatus {
+  PLANNING
+  IN_PROGRESS
+  DELIVERED
+  ARCHIVED
+}
+
+model Session {
+  id            String        @id @default(cuid())
+  projectId     String
+  title         String
+  sessionType   SessionType
+  status        SessionStatus @default(SCHEDULED)
+  scheduledDate DateTime?
+  deliveryDate  DateTime?
+  location      String?
+  description   String?
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+  ownerId       String?
+  owner         User?         @relation("SessionOwner", fields: [ownerId], references: [id])
+  project       Project       @relation(fields: [projectId], references: [id], onDelete: Cascade)
+}
+
+enum SessionType {
+  WEDDING
+  COMMERCIAL
+  PORTRAIT
+  EVENT
+  TRAVEL
+}
+
+enum SessionStatus {
+  SCHEDULED
+  EDITING
+  DELIVERED
+  CANCELLED
+}
+
+model RefreshToken {
+  id         String   @id @default(cuid())
+  token      String   @unique
+  expiresAt  DateTime
+  createdAt  DateTime @default(now())
+  revokedAt  DateTime?
+  userId     String
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
