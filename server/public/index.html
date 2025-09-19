@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>简浩影视 · Jianhao Film Studio</title>
+    <meta name="description" content="简浩影视 — 为婚礼、旅拍、商业项目打造具有电影质感的影像作品，提供预约、进度追踪与专业团队展示的全案影像服务平台。" />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="page" id="app">
+      <header class="site-header" id="top">
+        <div class="container site-header__inner">
+          <a class="logo" href="#top">简浩影视 Jianhao Film</a>
+          <button class="nav-toggle" id="nav-toggle" aria-expanded="false" aria-label="展开导航">
+            <span></span>
+            <span></span>
+            <span></span>
+          </button>
+          <nav class="nav" id="nav-menu">
+            <a href="#portfolio" class="nav-link" data-section-target="portfolio">作品</a>
+            <a href="#services" class="nav-link" data-section-target="services">服务</a>
+            <a href="#photographers" class="nav-link" data-section-target="photographers">团队</a>
+            <a href="#booking" class="nav-link nav-cta" data-section-target="booking">立即预约</a>
+          </nav>
+        </div>
+      </header>
+
+      <section class="hero" id="hero">
+        <div class="hero-surface">
+          <div class="container hero-inner">
+            <div class="hero-content">
+              <p class="hero-tagline" id="hero-tagline">以光影铭记每一个珍贵瞬间</p>
+              <h1 class="hero-title" id="hero-title">简浩影视 · 全案影像体验</h1>
+              <p class="hero-description" id="hero-description">
+                我们相信影像的力量，可以将情感凝聚并永久珍藏。简浩影视以国际化审美与顶尖器材，打造婚礼、旅拍、商业大片等全方位影像服务，为您记录每一次怦然心动。
+              </p>
+              <div class="hero-actions">
+                <a class="button primary" id="hero-cta-primary" href="#booking">立即预约</a>
+                <a class="button ghost" id="hero-cta-secondary" href="#portfolio">浏览作品集</a>
+              </div>
+            </div>
+            <aside class="hero-aside">
+              <div class="live-sync" id="live-sync-indicator" role="status" aria-live="polite">后台实时联动 · 建立连接中…</div>
+              <div class="hero-metrics" id="studio-metrics">
+                <div class="metric-card">
+                  <span class="metric-value" data-metric="projects">428+</span>
+                  <span class="metric-label">全球拍摄项目</span>
+                </div>
+                <div class="metric-card">
+                  <span class="metric-value" data-metric="awards">17</span>
+                  <span class="metric-label">国际影像奖项</span>
+                </div>
+                <div class="metric-card">
+                  <span class="metric-value" data-metric="satisfaction">99%</span>
+                  <span class="metric-label">客户满意度</span>
+                </div>
+                <div class="metric-card">
+                  <span class="metric-value" data-metric="teamMembers">36</span>
+                  <span class="metric-label">核心影像团队</span>
+                </div>
+              </div>
+              <div class="hero-snapshot" id="hero-snapshot">
+                <h3>实时项目概览</h3>
+                <p><span id="hero-booking-count">0</span> 个项目进行中</p>
+                <p>最新里程碑：<span id="hero-last-update">待同步</span></p>
+              </div>
+            </aside>
+          </div>
+        </div>
+      </section>
+
+      <main>
+        <section class="values section-block" id="values">
+          <div class="container section-inner">
+            <header class="section-head">
+              <h2 class="section-title">我们的创作哲学</h2>
+            </header>
+            <div class="section-body">
+              <div class="value-grid" id="value-grid"></div>
+            </div>
+          </div>
+        </section>
+
+        <section class="portfolio section-block" id="portfolio">
+          <div class="container section-inner">
+            <header class="section-head section-head--split">
+              <div>
+                <p class="section-subtitle">Signature Works</p>
+                <h2 class="section-title">作品展示</h2>
+              </div>
+              <div class="portfolio-filter" id="portfolio-filter"></div>
+            </header>
+            <div class="section-body">
+              <div class="portfolio-grid" id="portfolio-grid"></div>
+            </div>
+          </div>
+        </section>
+
+        <section class="services section-block" id="services">
+          <div class="container section-inner">
+            <header class="section-head">
+              <p class="section-subtitle">Tailored Experiences</p>
+              <h2 class="section-title">全案影像服务</h2>
+            </header>
+            <div class="section-body">
+              <div class="service-grid" id="service-grid"></div>
+            </div>
+          </div>
+        </section>
+
+        <section class="photographers section-block" id="photographers">
+          <div class="container section-inner">
+            <header class="section-head">
+              <p class="section-subtitle">Creative Team</p>
+              <h2 class="section-title">摄影导演团队</h2>
+            </header>
+            <div class="section-body">
+              <div class="photographer-grid" id="photographer-grid"></div>
+            </div>
+          </div>
+        </section>
+
+        <section class="testimonials section-block" id="testimonials">
+          <div class="container section-inner">
+            <header class="section-head">
+              <p class="section-subtitle">Client Stories</p>
+              <h2 class="section-title">来自客户的真诚推荐</h2>
+            </header>
+            <div class="section-body">
+              <div class="testimonial-slider" id="testimonial-slider"></div>
+            </div>
+          </div>
+        </section>
+
+        <section class="booking section-block" id="booking">
+          <div class="container section-inner">
+            <header class="section-head">
+              <p class="section-subtitle">Book Your Story</p>
+              <h2 class="section-title">预约专属影像顾问</h2>
+            </header>
+            <div class="section-body booking-layout">
+              <div class="booking-copy">
+                <p class="booking-description">
+                  让我们了解您的故事与期待，简浩影视的策划顾问将在 24 小时内与您联系，提供档期确认、创意策划与预算建议。
+                </p>
+                <ul class="booking-highlights" id="timeline-preview"></ul>
+              </div>
+              <form class="booking-form" id="booking-form">
+                <div class="form-row">
+                  <label for="clientName">您的称呼 *</label>
+                  <input type="text" id="clientName" name="clientName" placeholder="例如：李小姐" required />
+                </div>
+                <div class="form-row">
+                  <label for="email">联系邮箱 *</label>
+                  <input type="email" id="email" name="email" placeholder="用于发送方案与成片" required />
+                </div>
+                <div class="form-row">
+                  <label for="phone">联系电话</label>
+                  <input type="tel" id="phone" name="phone" placeholder="选填" />
+                </div>
+                <div class="form-row">
+                  <label for="serviceId">选择服务类型 *</label>
+                  <select id="serviceId" name="serviceId" required></select>
+                </div>
+                <div class="form-row">
+                  <label for="eventDate">拍摄日期 *</label>
+                  <input type="date" id="eventDate" name="eventDate" required />
+                </div>
+                <div class="form-row">
+                  <label for="location">拍摄地点</label>
+                  <input type="text" id="location" name="location" placeholder="城市或场地" />
+                </div>
+                <div class="form-row">
+                  <label for="notes">补充信息</label>
+                  <textarea id="notes" name="notes" rows="4" placeholder="告诉我们您的想法、灵感或特别安排"></textarea>
+                </div>
+                <button type="submit" class="button primary full">提交预约申请</button>
+                <p class="form-feedback" id="form-feedback"></p>
+              </form>
+            </div>
+          </div>
+        </section>
+
+        <section class="progress section-block" id="progress">
+          <div class="container section-inner">
+            <header class="section-head">
+              <p class="section-subtitle">Project Tracker</p>
+              <h2 class="section-title">实时进度与客户看板</h2>
+            </header>
+            <div class="section-body">
+              <div class="progress-layout">
+                <div class="progress-board">
+                  <div class="progress-board-header">
+                    <h3>预约状态总览</h3>
+                    <div class="dashboard-cards" id="dashboard-cards"></div>
+                  </div>
+                  <div class="progress-columns" id="progress-columns"></div>
+                </div>
+                <aside class="progress-detail" id="progress-detail">
+                  <h3>进度详情</h3>
+                  <p class="empty">从左侧选择一个项目，查看里程碑与备注</p>
+                </aside>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="faq section-block" id="faq">
+          <div class="container section-inner">
+            <header class="section-head">
+              <p class="section-subtitle">FAQ</p>
+              <h2 class="section-title">常见问题</h2>
+            </header>
+            <div class="section-body">
+              <div class="faq-list" id="faq-list"></div>
+            </div>
+          </div>
+        </section>
+
+        <section class="contact section-block" id="contact">
+          <div class="container section-inner contact-layout">
+            <div class="contact-info">
+              <header class="section-head">
+                <p class="section-subtitle">Connect</p>
+                <h2 class="section-title">预约参观 · 私享沙龙</h2>
+              </header>
+              <p id="contact-address">深圳市南山区设计产业园 3 栋</p>
+              <p id="contact-hours">周一至周日 09:30-20:00</p>
+              <div class="contact-grid" id="contact-grid"></div>
+            </div>
+            <div class="contact-map">
+              <div class="map-card">
+                <p>扫描二维码添加影像顾问微信</p>
+                <div class="qr-placeholder">微信：jianhao-film</div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <footer class="footer">
+        <div class="container footer-container">
+          <div class="footer-grid">
+            <div>
+              <h3>简浩影视</h3>
+              <p>Jianhao Film Studio · Capture Your Narrative</p>
+            </div>
+            <div>
+              <h3>快速链接</h3>
+              <ul>
+                <li><a href="#portfolio">作品展示</a></li>
+                <li><a href="#services">影像服务</a></li>
+                <li><a href="#booking">预约顾问</a></li>
+                <li><a href="#progress">进度追踪</a></li>
+              </ul>
+            </div>
+            <div>
+              <h3>关注我们</h3>
+              <ul id="social-links"></ul>
+            </div>
+          </div>
+          <p class="footer-meta">© <span id="current-year"></span> 简浩影视 Jianhao Film Studio · All Rights Reserved.</p>
+        </div>
+      </footer>
+    </div>
+    <script src="./app.js" type="module"></script>
+  </body>
+</html>

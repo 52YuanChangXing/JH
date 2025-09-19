@@ -1,0 +1,220 @@
+{
+  "hero": {
+    "tagline": "以光影铭记每一个珍贵瞬间",
+    "title": "简浩影视 · 全案影像体验",
+    "description": "我们相信影像的力量，可以将情感凝聚并永久珍藏。简浩影视以国际化审美与顶尖器材，打造婚礼、旅拍、商业大片等全方位影像服务，为您记录每一次怦然心动。",
+    "ctaPrimary": "立即预约",
+    "ctaSecondary": "浏览作品集"
+  },
+  "featureToggles": {
+    "hero": true,
+    "values": true,
+    "portfolio": true,
+    "services": true,
+    "photographers": true,
+    "testimonials": true,
+    "booking": true,
+    "progress": true,
+    "faq": true,
+    "contact": true
+  },
+  "studioValues": [
+    {
+      "title": "顶级器材配置",
+      "description": "ARRI、RED、索尼旗舰级机型全覆盖，搭配电影级灯光与音频方案"
+    },
+    {
+      "title": "国际获奖团队",
+      "description": "核心成员来自 Vogue、GQ、婚礼纪等一线项目，荣获 17 项影像大奖"
+    },
+    {
+      "title": "全流程服务管家",
+      "description": "专属策划顾问对接，提供前期创意、现场执行与后期精修一站式服务"
+    }
+  ],
+  "portfolio": [
+    {
+      "id": "p1",
+      "title": "沙漠星河婚礼",
+      "category": "婚礼",
+      "cover": "images/portfolio/desert-wedding.svg",
+      "location": "敦煌",
+      "description": "以星空为背景，采用极简光源捕捉新人之间的深情对望"
+    },
+    {
+      "id": "p2",
+      "title": "京都和风旅拍",
+      "category": "旅拍",
+      "cover": "images/portfolio/kyoto-travel.svg",
+      "location": "京都",
+      "description": "晨雾中的花见小路，将东方韵味与现代时尚完美融合"
+    },
+    {
+      "id": "p3",
+      "title": "高定时装大片",
+      "category": "商业",
+      "cover": "images/portfolio/fashion-editorial.svg",
+      "location": "上海",
+      "description": "以电影灯光营造多维空间感，塑造极致高级的品牌气质"
+    },
+    {
+      "id": "p4",
+      "title": "亲子成长记忆",
+      "category": "家庭",
+      "cover": "images/portfolio/family-story.svg",
+      "location": "深圳",
+      "description": "纪录片式叙事，让日常生活充满故事张力"
+    },
+    {
+      "id": "p5",
+      "title": "星际主题婚礼",
+      "category": "婚礼",
+      "cover": "images/portfolio/cosmic-wedding.svg",
+      "location": "北京",
+      "description": "AR 实景搭建，让婚礼现场宛若漫游银河"
+    },
+    {
+      "id": "p6",
+      "title": "企业年度形象",
+      "category": "商业",
+      "cover": "images/portfolio/corporate-identity.svg",
+      "location": "广州",
+      "description": "以城市为舞台，讲述品牌进化与团队精神"
+    }
+  ],
+  "photographers": [
+    {
+      "id": "ph1",
+      "name": "简浩 Jian Hao",
+      "role": "创始人 / 首席影像总监",
+      "avatar": "images/photographers/jian-hao.svg",
+      "specialty": "电影级叙事、超写实灯光、婚礼导演",
+      "biography": "曾任知名时尚杂志影像总监，主导拍摄 VOGUE、GQ、ELLE 等商业项目，擅长将电影叙事融入纪实影像。"
+    },
+    {
+      "id": "ph2",
+      "name": "梁梵 Fan Liang",
+      "role": "婚礼总监摄影师",
+      "avatar": "images/photographers/fan-liang.svg",
+      "specialty": "目的地婚礼、航拍、慢直播",
+      "biography": "10 年婚礼影像经验，足迹遍布 23 个国家，以极具故事感的构图和细腻情绪捕捉著称。"
+    },
+    {
+      "id": "ph3",
+      "name": "宋礼 Li Song",
+      "role": "商业视觉导演",
+      "avatar": "images/photographers/li-song.svg",
+      "specialty": "时尚广告、品牌故事、产品电影",
+      "biography": "曾服务路易威登、华为、蔚来等品牌，擅长打造兼具艺术张力与商业价值的视觉语言。"
+    }
+  ],
+  "services": [
+    {
+      "id": "sv1",
+      "name": "定制婚礼影像",
+      "price": "¥28,800 起",
+      "features": ["创意脚本与分镜策划", "双机位 8K 拍摄", "婚礼日即时混剪"],
+      "highlight": "专属导演团队，全纪录式呈现婚礼高潮与细节"
+    },
+    {
+      "id": "sv2",
+      "name": "全世界旅拍",
+      "price": "¥19,800 起",
+      "features": ["目的地场景勘测", "航拍与延时摄影", "轻旅装备团队"],
+      "highlight": "一对一定制行程，在自然光线下捕捉最真实的你"
+    },
+    {
+      "id": "sv3",
+      "name": "品牌商业大片",
+      "price": "¥35,000 起",
+      "features": ["脚本创意策划", "电影灯光团队", "多平台成片交付"],
+      "highlight": "以电影级审美构建品牌识别，提升商业价值"
+    }
+  ],
+  "testimonials": [
+    {
+      "id": "tm1",
+      "client": "Avery & Ethan",
+      "project": "京都旅拍婚礼",
+      "quote": "从策划到成片，每一步都让人惊喜。视频上映时全场落泪，简浩团队太懂我们了！"
+    },
+    {
+      "id": "tm2",
+      "client": "OneStep 品牌总监",
+      "project": "年度品牌形象",
+      "quote": "团队输出极快且专业，影片上线三天带来 280% 线索增长，是我们最信赖的影像伙伴。"
+    },
+    {
+      "id": "tm3",
+      "client": "林先生家庭",
+      "project": "亲子纪录片",
+      "quote": "他们真正记录了家庭的温度，每个镜头都让我们看见生活中被忽略的温柔瞬间。"
+    }
+  ],
+  "faqs": [
+    {
+      "question": "如何开启预约流程？",
+      "answer": "填写预约表单或联系顾问，我们将在 1 个工作日内与您确认档期和拍摄策划方向。"
+    },
+    {
+      "question": "是否提供海外拍摄？",
+      "answer": "我们支持全球拍摄，可协助办理签证、场地申请、翻译等全套服务。"
+    },
+    {
+      "question": "成片交付时间多久？",
+      "answer": "婚礼与旅拍项目 15 个工作日内交付，商业项目根据片长与复杂度 7-21 天完成。"
+    }
+  ],
+  "timelineStages": [
+    {
+      "id": "consultation",
+      "name": "前期策划",
+      "description": "制定拍摄主题、风格与场景脚本"
+    },
+    {
+      "id": "shooting",
+      "name": "现场拍摄",
+      "description": "导演组统筹执行，确保高质量素材产出"
+    },
+    {
+      "id": "editing",
+      "name": "后期精修",
+      "description": "4K 调色、精剪、声效与音乐设计"
+    },
+    {
+      "id": "delivery",
+      "name": "成片交付",
+      "description": "提供多版本导出与云端相册"
+    }
+  ],
+  "metrics": {
+    "awards": 17,
+    "projects": 428,
+    "satisfaction": 99,
+    "teamMembers": 36
+  },
+  "contact": {
+    "address": "深圳市南山区设计产业园 3 栋",
+    "phone": "+86 755 8899 2233",
+    "email": "hello@jianhaofilm.com",
+    "wechat": "jianhao-film",
+    "hours": "周一至周日 09:30-20:00"
+  },
+  "social": [
+    {
+      "platform": "微博",
+      "handle": "@简浩影视",
+      "url": "https://weibo.com"
+    },
+    {
+      "platform": "小红书",
+      "handle": "@简浩Film",
+      "url": "https://www.xiaohongshu.com"
+    },
+    {
+      "platform": "Bilibili",
+      "handle": "@JianHaoStudio",
+      "url": "https://www.bilibili.com"
+    }
+  ]
+}

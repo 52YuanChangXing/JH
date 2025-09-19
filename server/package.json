@@ -1,0 +1,17 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "Jianhao Film Studio backend server",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "keywords": [
+    "photography",
+    "studio",
+    "api"
+  ],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs"
+}

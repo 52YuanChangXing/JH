@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800">
+  <defs>
+    <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#0f0c29"/>
+      <stop offset="50%" stop-color="#302b63"/>
+      <stop offset="100%" stop-color="#24243e"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="800" fill="url(#grad)" rx="48"/>
+  <text x="80" y="360" font-family="'PingFang SC', 'Microsoft YaHei', sans-serif" font-size="96" fill="#ffffff" font-weight="600">高定时装大片</text>
+  <text x="80" y="460" font-family="'PingFang SC', 'Microsoft YaHei', sans-serif" font-size="46" fill="rgba(255,255,255,0.85)">COUTURE MOTION</text>
+  <text x="80" y="560" font-family="'PingFang SC', 'Microsoft YaHei', sans-serif" font-size="32" fill="rgba(255,255,255,0.8)">电影灯光 × 高级质感</text>
+</svg>
