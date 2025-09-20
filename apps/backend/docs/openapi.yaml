@@ -1,0 +1,275 @@
+openapi: 3.0.3
+info:
+  title: 简浩影视 Admin API
+  version: 1.0.0
+  description: |
+    后台管理系统 API，涵盖认证、用户、角色、项目、拍摄会话、审计日志与仪表盘统计。
+servers:
+  - url: http://localhost:8080/api/v1
+    description: 本地开发
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+paths:
+  /auth/login:
+    post:
+      summary: 用户登录
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [email, password]
+              properties:
+                email:
+                  type: string
+                password:
+                  type: string
+      responses:
+        '200':
+          description: 登录成功
+  /auth/register:
+    post:
+      summary: 新用户注册
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [email, password, displayName]
+              properties:
+                email:
+                  type: string
+                password:
+                  type: string
+                displayName:
+                  type: string
+      responses:
+        '201':
+          description: 注册成功
+  /auth/refresh:
+    post:
+      summary: 刷新令牌
+      responses:
+        '200':
+          description: 新令牌
+  /auth/logout:
+    post:
+      summary: 注销
+      responses:
+        '200':
+          description: 已注销
+  /auth/me:
+    get:
+      summary: 当前用户
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: 当前用户信息
+  /users:
+    get:
+      summary: 用户列表
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: query
+          name: page
+          schema:
+            type: integer
+        - in: query
+          name: pageSize
+          schema:
+            type: integer
+        - in: query
+          name: search
+          schema:
+            type: string
+      responses:
+        '200':
+          description: 用户列表
+    post:
+      summary: 创建用户
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [email, password, displayName]
+              properties:
+                email: { type: string }
+                password: { type: string }
+                displayName: { type: string }
+                roles:
+                  type: array
+                  items: { type: string }
+      responses:
+        '201':
+          description: 已创建
+  /users/{id}:
+    patch:
+      summary: 更新用户
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: 已更新
+    delete:
+      summary: 删除用户
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: 已删除
+  /roles:
+    get:
+      summary: 角色与权限列表
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: 角色列表
+    post:
+      summary: 创建角色
+      security:
+        - bearerAuth: []
+      responses:
+        '201':
+          description: 已创建
+  /roles/{id}:
+    patch:
+      summary: 更新角色
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: 已更新
+    delete:
+      summary: 删除角色
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: 已删除
+  /projects:
+    get:
+      summary: 项目列表
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: 项目数据
+    post:
+      summary: 创建项目
+      security:
+        - bearerAuth: []
+      responses:
+        '201':
+          description: 项目已创建
+  /projects/{id}:
+    get:
+      summary: 获取项目
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: 项目信息
+    patch:
+      summary: 更新项目
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: 已更新
+    delete:
+      summary: 删除项目
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: 已删除
+  /sessions:
+    get:
+      summary: 拍摄会话列表
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: 会话数据
+    post:
+      summary: 创建拍摄会话
+      security:
+        - bearerAuth: []
+      responses:
+        '201':
+          description: 会话已创建
+  /sessions/{id}:
+    get:
+      summary: 查看会话
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: 会话详情
+    patch:
+      summary: 更新会话
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: 已更新
+    delete:
+      summary: 删除会话
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: 已删除
+  /audit-logs:
+    get:
+      summary: 审计日志
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: 审计数据
+  /stats/overview:
+    get:
+      summary: 仪表盘概览
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: 概览指标

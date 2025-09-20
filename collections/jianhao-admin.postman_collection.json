@@ -1,0 +1,47 @@
+{
+  "info": {
+    "name": "简浩影视后台 API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": "常用后台接口示例集合"
+  },
+  "item": [
+    {
+      "name": "用户登录",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/auth/login",
+          "host": ["{{baseUrl}}"],
+          "path": ["auth", "login"]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"email\": \"admin@jianhao.studio\",\n  \"password\": \"changeme123\"\n}"
+        }
+      }
+    },
+    {
+      "name": "获取仪表盘数据",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "{{baseUrl}}/stats/overview",
+          "host": ["{{baseUrl}}"],
+          "path": ["stats", "overview"]
+        }
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8080/api/v1"
+    }
+  ]
+}
