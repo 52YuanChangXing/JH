@@ -1,15 +1,23 @@
 # 简浩影视 · 全栈后台管理系统
 
-简浩影视是一套面向摄影工作室的全栈后台管理解决方案，涵盖登录注册、角色与权限管理、项目/拍摄排期、审计日志、统计仪表盘等模块，实现前后端联动与真实数据持久化。
+简浩影视是一套面向摄影工作室的全栈后台与官网解决方案，涵盖登录注册、角色与权限管理、预约/进度、摄影师与作品集、营销内容、统计仪表盘等模块，并提供与后台数据实时联动的响应式官网体验。
 
 ## 功能亮点
 
-- 🔐 **认证与 RBAC**：JWT + HttpOnly Cookie，支持注册、登录、刷新令牌、退出；角色/权限多对多映射。
-- 👥 **成员管理**：用户、角色、权限增删改查，实时审计记录。
-- 🎬 **业务模块**：摄影项目管理、拍摄会话排期、预算与状态跟踪。
-- 📊 **仪表盘**：Recharts 图表展示 KPI、未来排期与最新操作，Framer Motion 微动画增强体验。
-- 📜 **审计日志**：每次操作落地到数据库，可按操作人、动作检索。
+- 🔐 **认证与 RBAC**：JWT + HttpOnly Cookie，注册/登录/刷新/注销齐全，角色与权限多对多映射并实时生效。
+- 👥 **成员与权限管理**：用户、角色、权限增删改查，登录设备写入审计日志，支持按角色过滤菜单。
+- 📅 **核心业务模块**：项目、拍摄排期、客户预约、摄影师档案、服务套餐、作品集、站点内容一站式管理。
+- 🛰️ **前后端联动官网**：React 公网站点（首页/作品/摄影师/服务/预约/进度查询）直接消费后端 API，所有更新实时同步。
+- 📊 **仪表盘与统计**：Recharts 图表展示 KPI、预约漏斗、团队日程等指标，Framer Motion 微动画增强体验。
+- 📜 **审计与合规**：关键操作自动落库，提供筛选、排序、追踪能力。
 - ⚙️ **工程化**：Monorepo、TypeScript 全覆盖、ESLint + Prettier、Vitest 单测、OpenAPI 文档、Postman 集合。
+
+### 前台体验亮点
+
+- 🎞️ **高颜值官网**：Tailwind + shadcn/ui 构建的响应式首页，覆盖服务优势、作品精选、客户评价、FAQ 等内容。
+- 🧑‍🤝‍🧑 **摄影师挑选**：按专题展示摄影师履历、擅长领域与社交链接，可从后台实时上下架。
+- 🗓️ **在线预约与进度查询**：多步骤表单校验，提交后生成预约 reference + 访问口令；客户可凭此查看制作进度。
+- 📱 **全端适配**：侧边栏分层、可折叠导航与响应式网格，确保桌面与移动端都有良好体验。
 
 ## 目录结构
 
@@ -54,6 +62,8 @@ npm run db:seed        # 写入示例数据、账号与演示项目
 > - 管理员：`admin@jianhao.studio / changeme123`
 > - 编辑：`editor@jianhao.studio / changeme123`
 > - 观察者：`viewer@jianhao.studio / changeme123`
+>
+> 种子脚本会在控制台输出 2~3 条示例预约的 `reference` 与 `accessCode`，用于公众预约查询演示。
 
 ### 3. 启动前后端（本地开发）
 
@@ -66,8 +76,9 @@ npm run dev --workspace apps/backend   # 后端：使用 tsx watch 热更新
 npm run dev --workspace apps/frontend  # 前端：Vite 热更新
 ```
 
-- 前端：<http://localhost:5173>
-- 后端：<http://localhost:8080>
+- 官网：<http://localhost:5173>（首页、作品、摄影师、服务、预约）
+- 后台：<http://localhost:5173/admin>（登录后访问各管理模块）
+- 后端 API：<http://localhost:8080>
 - Swagger 文档（Basic Auth：docs/docs）：<http://localhost:8080/docs>
 
 若端口占用，可在 `.env` 中调整 `FRONTEND_PORT` / `BACKEND_PORT`，或在运行命令时临时覆盖（如 `BACKEND_PORT=8081 npm run dev --workspace apps/backend`）。
@@ -78,7 +89,7 @@ npm run dev --workspace apps/frontend  # 前端：Vite 热更新
 2. `.env` 与数据库、Cookie、域名匹配。
 3. `npm run db:migrate && npm run db:seed` 已执行成功。
 4. 访问 `http://localhost:8080/healthz` 或调用登录接口确认 200 响应。
-5. 使用演示账号登录后台 <http://localhost:5173> 确认菜单权限与数据加载正常。
+5. 使用演示账号登录后台 <http://localhost:5173/admin>，确认菜单、权限、数据表格及表单正常；访问官网 <http://localhost:5173> 验证作品、服务、预约与进度查询展示无误。
 
 ### 5. 生产构建
 
@@ -150,11 +161,11 @@ npm run start          # 以构建产物启动（需预先构建）
 ## 后端说明（apps/backend）
 
 - **技术栈**：Express + Prisma + Zod DTO + JWT + Cookie + RBAC
-- **目录组织**：按业务模块拆分（auth/users/roles/projects/sessions/audit/stats）
+- **目录组织**：按业务模块拆分（auth/users/roles/projects/sessions/bookings/photographers/services/portfolio/content/public/audit/stats）
 - **API 前缀**：`/api/v1`
 - **响应规范**：`{ data, message, error?, traceId? }`
 - **OpenAPI 文档**：`apps/backend/docs/openapi.yaml`（Swagger-UI 挂载在 `/docs`）
-- **数据库模型**：`prisma/schema.prisma`（User、Role、Permission、AuditLog、Project、Session、RefreshToken ...）
+- **数据库模型**：`prisma/schema.prisma`（User、Role、Permission、Photographer、Service、PortfolioItem、Booking、BookingProgress、SiteSetting、AuditLog、Project、Session、RefreshToken ...）
 - **脚本**：
   - `npm run db:migrate`：迁移部署
   - `npm run db:seed`：写入演示数据（角色 + 账号 + 项目 + 会话）
@@ -164,10 +175,11 @@ npm run start          # 以构建产物启动（需预先构建）
 
 - **技术栈**：React 18、TypeScript、Vite、React Router、Tailwind CSS、shadcn/ui、TanStack Query、React Hook Form、Zod、Recharts、Framer Motion、Lucide Icons。
 - **结构**：
-  - `layouts/`：Dashboard 布局、主题切换、Sidebar
-  - `pages/`：各业务页面（仪表盘、项目、拍摄、用户、角色、审计）
+  - `layouts/`：Dashboard 布局、Public Layout、主题切换、Sidebar
+  - `pages/`：后台模块（仪表盘、项目、拍摄、预约、摄影师、服务、作品集、内容、用户、角色、审计）
+  - `pages/public/`：官网页面（首页、作品集、摄影师、服务、预约、进度查询）
   - `components/ui/`：shadcn 风格基础组件
-  - `services/`：Axios API 封装、类型定义
+  - `services/`：Axios API 封装、类型定义、TanStack Query 钩子
   - `providers/`：AuthProvider & ThemeProvider
 - **体验特性**：响应式布局、暗黑模式、乐观提示、表单校验、Loading Skeleton、微动画
 - **测试**：`npm test --workspace apps/frontend` 使用 Vitest + Testing Library
@@ -196,7 +208,7 @@ npm run db:seed        # 载入演示数据
 
 ## 截图（示例）
 
-> 可选：运行 `npm run dev` 后访问前端查看实时效果（仪表盘、项目、排期、成员、角色、审计等页面）。
+> 可选：运行 `npm run dev` 后体验官网（首页/作品/摄影师/服务/预约）与后台（仪表盘、项目、排期、预约、摄影师、服务、作品集、内容、成员、角色、审计等页面）。
 
 ---
 

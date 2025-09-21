@@ -9,12 +9,17 @@ import { Dialog, DialogContent, DialogTrigger } from '../components/ui/dialog';
 import { cn } from '../utils/cn';
 
 const breadcrumbsMap: Record<string, string> = {
-  '/dashboard': '仪表盘',
-  '/projects': '项目管理',
-  '/sessions': '拍摄排期',
-  '/users': '用户管理',
-  '/roles': '角色权限',
-  '/audit-logs': '审计日志'
+  '/admin/dashboard': '仪表盘',
+  '/admin/projects': '项目管理',
+  '/admin/sessions': '拍摄排期',
+  '/admin/bookings': '客户预约',
+  '/admin/photographers': '摄影师管理',
+  '/admin/services': '服务套餐',
+  '/admin/portfolio': '作品集管理',
+  '/admin/content': '站点内容',
+  '/admin/users': '用户管理',
+  '/admin/roles': '角色权限',
+  '/admin/audit-logs': '审计日志'
 };
 
 export function DashboardLayout() {

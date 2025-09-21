@@ -54,7 +54,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       localStorage.setItem('jianhao-access-token', data.data.accessToken);
       setUser(data.data.user);
       toast.success('欢迎回来，' + data.data.user.displayName);
-      const redirectTo = (location.state as { from?: string })?.from || '/dashboard';
+      const redirectTo = (location.state as { from?: string })?.from || '/admin/dashboard';
       navigate(redirectTo, { replace: true });
     } catch (error: any) {
       toast.error(error.response?.data?.error || '登录失败');
@@ -69,7 +69,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     try {
       await api.post('/auth/register', { email, password, displayName });
       toast.success('注册成功，请登录');
-      navigate('/login');
+      navigate('/admin/login');
     } catch (error: any) {
       toast.error(error.response?.data?.error || '注册失败');
       throw error;
@@ -86,7 +86,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     } finally {
       localStorage.removeItem('jianhao-access-token');
       setUser(null);
-      navigate('/login');
+      navigate('/admin/login');
     }
   };
 

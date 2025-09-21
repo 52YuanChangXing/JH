@@ -1,16 +1,32 @@
 import { useMemo } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Camera, CalendarClock, Gauge, Users, ShieldCheck, FileText } from 'lucide-react';
+import {
+  Gauge,
+  Camera,
+  CalendarClock,
+  CalendarCheck,
+  Users,
+  ShieldCheck,
+  FileText,
+  Images,
+  Palette,
+  UserRound
+} from 'lucide-react';
 import { useAuth } from '../../providers/auth-provider';
 import { cn } from '../../utils/cn';
 
 const NAV_ITEMS = [
-  { label: '仪表盘', icon: Gauge, to: '/dashboard', permission: 'dashboard:view' },
-  { label: '项目管理', icon: Camera, to: '/projects', permission: 'projects:read' },
-  { label: '拍摄排期', icon: CalendarClock, to: '/sessions', permission: 'sessions:read' },
-  { label: '用户管理', icon: Users, to: '/users', permission: 'users:manage' },
-  { label: '角色权限', icon: ShieldCheck, to: '/roles', permission: 'roles:manage' },
-  { label: '审计日志', icon: FileText, to: '/audit-logs', permission: 'audit:view' }
+  { label: '仪表盘', icon: Gauge, to: '/admin/dashboard', permission: 'dashboard:view' },
+  { label: '项目管理', icon: Camera, to: '/admin/projects', permission: 'projects:read' },
+  { label: '拍摄排期', icon: CalendarClock, to: '/admin/sessions', permission: 'sessions:read' },
+  { label: '客户预约', icon: CalendarCheck, to: '/admin/bookings', permission: 'bookings:read' },
+  { label: '摄影师管理', icon: UserRound, to: '/admin/photographers', permission: 'photographers:read' },
+  { label: '服务套餐', icon: Palette, to: '/admin/services', permission: 'services:read' },
+  { label: '作品集管理', icon: Images, to: '/admin/portfolio', permission: 'portfolio:read' },
+  { label: '内容配置', icon: FileText, to: '/admin/content', permission: 'content:manage' },
+  { label: '用户管理', icon: Users, to: '/admin/users', permission: 'users:manage' },
+  { label: '角色权限', icon: ShieldCheck, to: '/admin/roles', permission: 'roles:manage' },
+  { label: '审计日志', icon: FileText, to: '/admin/audit-logs', permission: 'audit:view' }
 ] as const;
 
 export function Sidebar() {

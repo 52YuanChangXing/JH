@@ -13,6 +13,12 @@ import { projectsRouter } from '../modules/projects/projects.routes.js';
 import { sessionsRouter } from '../modules/sessions/sessions.routes.js';
 import { auditRouter } from '../modules/audit/audit.routes.js';
 import { statsRouter } from '../modules/stats/stats.routes.js';
+import { publicRouter } from '../modules/public/public.routes.js';
+import { bookingsRouter } from '../modules/bookings/bookings.routes.js';
+import { photographersRouter } from '../modules/photographers/photographers.routes.js';
+import { servicesRouter } from '../modules/services/services.routes.js';
+import { portfolioRouter } from '../modules/portfolio/portfolio.routes.js';
+import { contentRouter } from '../modules/content/content.routes.js';
 
 const moduleDir = path.dirname(fileURLToPath(import.meta.url));
 const openApiCandidates = [
@@ -54,12 +60,18 @@ type RouterBundle = {
 
 const api = Router();
 
+api.use('/public', publicRouter);
 api.use('/auth', authRouter);
 api.use(authenticate, enrichUser);
 api.use('/users', authorize('users:manage'), usersRouter);
 api.use('/roles', authorize('roles:manage'), rolesRouter);
 api.use('/projects', authorize(['projects:read']), projectsRouter);
 api.use('/sessions', authorize(['sessions:read']), sessionsRouter);
+api.use('/bookings', authorize(['bookings:read']), bookingsRouter);
+api.use('/photographers', authorize(['photographers:read']), photographersRouter);
+api.use('/services', authorize(['services:read']), servicesRouter);
+api.use('/portfolio', authorize(['portfolio:read']), portfolioRouter);
+api.use('/content', authorize('content:manage'), contentRouter);
 api.use('/audit-logs', authorize('audit:view'), auditRouter);
 api.use('/stats', authorize('dashboard:view'), statsRouter);
 

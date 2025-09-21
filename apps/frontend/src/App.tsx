@@ -10,6 +10,18 @@ import { SessionsPage } from './pages/sessions/sessions-page';
 import { UsersPage } from './pages/users/users-page';
 import { RolesPage } from './pages/roles/roles-page';
 import { AuditLogsPage } from './pages/audit/audit-page';
+import { BookingsPage } from './pages/bookings/bookings-page';
+import { PhotographersPage } from './pages/photographers/photographers-page';
+import { ServicesPage } from './pages/services/services-page';
+import { PortfolioPage } from './pages/portfolio/portfolio-page';
+import { ContentPage } from './pages/content/content-page';
+import { PublicLayout } from './layouts/public-layout';
+import { HomePage } from './pages/public/home-page';
+import { PortfolioGalleryPage } from './pages/public/portfolio-page';
+import { PhotographersShowcasePage } from './pages/public/photographers-page';
+import { ServicesShowcasePage } from './pages/public/services-page';
+import { BookingRequestPage } from './pages/public/booking-page';
+import { BookingStatusPage } from './pages/public/booking-status-page';
 import { Skeleton } from './components/ui/skeleton';
 
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
@@ -25,7 +37,7 @@ function ProtectedRoute({ children }: { children: React.ReactNode }) {
   }
 
   if (!user) {
-    return <Navigate to="/login" state={{ from: location.pathname }} replace />;
+    return <Navigate to="/admin/login" state={{ from: location.pathname }} replace />;
   }
 
   return <>{children}</>;
@@ -34,7 +46,7 @@ function ProtectedRoute({ children }: { children: React.ReactNode }) {
 function PublicRoute({ children }: { children: React.ReactNode }) {
   const { user } = useAuth();
   if (user) {
-    return <Navigate to="/dashboard" replace />;
+    return <Navigate to="/admin/dashboard" replace />;
   }
   return <>{children}</>;
 }
@@ -42,8 +54,16 @@ function PublicRoute({ children }: { children: React.ReactNode }) {
 export default function App() {
   return (
     <Routes>
+      <Route path="/" element={<PublicLayout />}>
+        <Route index element={<HomePage />} />
+        <Route path="portfolio" element={<PortfolioGalleryPage />} />
+        <Route path="photographers" element={<PhotographersShowcasePage />} />
+        <Route path="services" element={<ServicesShowcasePage />} />
+        <Route path="booking" element={<BookingRequestPage />} />
+        <Route path="booking/status" element={<BookingStatusPage />} />
+      </Route>
       <Route
-        path="/login"
+        path="/admin/login"
         element={
           <PublicRoute>
             <LoginPage />
@@ -51,7 +71,7 @@ export default function App() {
         }
       />
       <Route
-        path="/register"
+        path="/admin/register"
         element={
           <PublicRoute>
             <RegisterPage />
@@ -59,7 +79,7 @@ export default function App() {
         }
       />
       <Route
-        path="/forgot-password"
+        path="/admin/forgot-password"
         element={
           <PublicRoute>
             <ForgotPasswordPage />
@@ -67,22 +87,27 @@ export default function App() {
         }
       />
       <Route
-        path="/"
+        path="/admin"
         element={
           <ProtectedRoute>
             <DashboardLayout />
           </ProtectedRoute>
         }
       >
-        <Route index element={<Navigate to="/dashboard" replace />} />
+        <Route index element={<Navigate to="/admin/dashboard" replace />} />
         <Route path="dashboard" element={<DashboardPage />} />
         <Route path="projects" element={<ProjectsPage />} />
         <Route path="sessions" element={<SessionsPage />} />
+        <Route path="bookings" element={<BookingsPage />} />
+        <Route path="photographers" element={<PhotographersPage />} />
+        <Route path="services" element={<ServicesPage />} />
+        <Route path="portfolio" element={<PortfolioPage />} />
+        <Route path="content" element={<ContentPage />} />
         <Route path="users" element={<UsersPage />} />
         <Route path="roles" element={<RolesPage />} />
         <Route path="audit-logs" element={<AuditLogsPage />} />
       </Route>
-      <Route path="*" element={<Navigate to="/dashboard" replace />} />
+      <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   );
 }

@@ -3,7 +3,7 @@ info:
   title: 简浩影视 Admin API
   version: 1.0.0
   description: |
-    后台管理系统 API，涵盖认证、用户、角色、项目、拍摄会话、审计日志与仪表盘统计。
+    后台管理系统 API，涵盖认证、用户、角色、项目、拍摄会话、预约、摄影师、服务、作品集、内容管理、审计日志与仪表盘统计，并提供对外官网数据接口。
 servers:
   - url: http://localhost:8080/api/v1
     description: 本地开发
@@ -273,3 +273,706 @@ paths:
       responses:
         '200':
           description: 概览指标
+  /bookings:
+    get:
+      summary: 预约列表
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: query
+          name: page
+          schema:
+            type: integer
+            minimum: 1
+        - in: query
+          name: pageSize
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+        - in: query
+          name: status
+          schema:
+            type: string
+            description: 预约状态枚举值
+        - in: query
+          name: search
+          schema:
+            type: string
+            description: 按客户姓名/邮箱模糊搜索
+        - in: query
+          name: serviceId
+          schema:
+            type: string
+        - in: query
+          name: photographerId
+          schema:
+            type: string
+        - in: query
+          name: from
+          schema:
+            type: string
+            format: date-time
+        - in: query
+          name: to
+          schema:
+            type: string
+            format: date-time
+      responses:
+        '200':
+          description: 预约分页数据
+    post:
+      summary: 创建预约
+      description: 需要 `bookings:manage` 权限。
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [clientName, clientEmail]
+              properties:
+                clientName:
+                  type: string
+                clientEmail:
+                  type: string
+                  format: email
+                clientPhone:
+                  type: string
+                eventDate:
+                  type: string
+                  format: date-time
+                venue:
+                  type: string
+                status:
+                  type: string
+                note:
+                  type: string
+                serviceId:
+                  type: string
+                photographerId:
+                  type: string
+                accessCode:
+                  type: string
+                  description: 自定义 6 位访问口令，可选
+      responses:
+        '201':
+          description: 预约已创建
+  /bookings/{id}:
+    get:
+      summary: 查看预约详情
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: 预约详情
+    patch:
+      summary: 更新预约
+      description: 需要 `bookings:manage` 权限。
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                clientName:
+                  type: string
+                clientEmail:
+                  type: string
+                  format: email
+                clientPhone:
+                  type: string
+                eventDate:
+                  type: string
+                  format: date-time
+                venue:
+                  type: string
+                status:
+                  type: string
+                note:
+                  type: string
+                serviceId:
+                  type: string
+                photographerId:
+                  type: string
+      responses:
+        '200':
+          description: 预约已更新
+  /bookings/{id}/progress:
+    patch:
+      summary: 更新预约进度
+      description: 需要 `bookings:manage` 权限。
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [progress]
+              properties:
+                progress:
+                  type: array
+                  items:
+                    type: object
+                    required: [stage]
+                    properties:
+                      stage:
+                        type: string
+                      completed:
+                        type: boolean
+                      note:
+                        type: string
+      responses:
+        '200':
+          description: 预约进度已更新
+  /photographers:
+    get:
+      summary: 摄影师列表
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: query
+          name: page
+          schema:
+            type: integer
+            minimum: 1
+        - in: query
+          name: pageSize
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+        - in: query
+          name: search
+          schema:
+            type: string
+        - in: query
+          name: featured
+          schema:
+            type: boolean
+      responses:
+        '200':
+          description: 摄影师分页数据
+    post:
+      summary: 创建摄影师
+      description: 需要 `photographers:manage` 权限。
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [name, slug, bio, specialties, experienceYears]
+              properties:
+                name:
+                  type: string
+                slug:
+                  type: string
+                avatarUrl:
+                  type: string
+                  format: uri
+                bio:
+                  type: string
+                tagline:
+                  type: string
+                specialties:
+                  type: array
+                  items:
+                    type: string
+                experienceYears:
+                  type: integer
+                accolades:
+                  type: array
+                  items:
+                    type: string
+                socialLinks:
+                  type: object
+                isFeatured:
+                  type: boolean
+                isActive:
+                  type: boolean
+      responses:
+        '201':
+          description: 摄影师已创建
+  /photographers/{id}:
+    patch:
+      summary: 更新摄影师
+      description: 需要 `photographers:manage` 权限。
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '200':
+          description: 摄影师已更新
+    delete:
+      summary: 删除摄影师
+      description: 需要 `photographers:manage` 权限。
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: 摄影师已删除
+  /services:
+    get:
+      summary: 服务套餐列表
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: query
+          name: page
+          schema:
+            type: integer
+        - in: query
+          name: pageSize
+          schema:
+            type: integer
+        - in: query
+          name: search
+          schema:
+            type: string
+      responses:
+        '200':
+          description: 服务分页数据
+    post:
+      summary: 新增服务套餐
+      description: 需要 `services:manage` 权限。
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [name, slug, summary]
+              properties:
+                name:
+                  type: string
+                slug:
+                  type: string
+                summary:
+                  type: string
+                description:
+                  type: string
+                priceFrom:
+                  type: number
+                duration:
+                  type: integer
+                deliverables:
+                  type: array
+                  items:
+                    type: string
+                isPopular:
+                  type: boolean
+      responses:
+        '201':
+          description: 服务已创建
+  /services/{id}:
+    patch:
+      summary: 更新服务套餐
+      description: 需要 `services:manage` 权限。
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '200':
+          description: 服务已更新
+    delete:
+      summary: 删除服务套餐
+      description: 需要 `services:manage` 权限。
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: 服务已删除
+  /portfolio:
+    get:
+      summary: 作品集列表
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: query
+          name: page
+          schema:
+            type: integer
+        - in: query
+          name: pageSize
+          schema:
+            type: integer
+        - in: query
+          name: category
+          schema:
+            type: string
+        - in: query
+          name: search
+          schema:
+            type: string
+      responses:
+        '200':
+          description: 作品集分页数据
+    post:
+      summary: 新增作品
+      description: 需要 `portfolio:manage` 权限。
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [title, coverUrl]
+              properties:
+                title:
+                  type: string
+                coverUrl:
+                  type: string
+                  format: uri
+                galleryUrls:
+                  type: array
+                  items:
+                    type: string
+                    format: uri
+                category:
+                  type: string
+                description:
+                  type: string
+                featured:
+                  type: boolean
+      responses:
+        '201':
+          description: 作品已创建
+  /portfolio/{id}:
+    patch:
+      summary: 更新作品
+      description: 需要 `portfolio:manage` 权限。
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '200':
+          description: 作品已更新
+    delete:
+      summary: 删除作品
+      description: 需要 `portfolio:manage` 权限。
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: 作品已删除
+  /content/settings:
+    get:
+      summary: 站点设置列表
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: 设置数据
+    put:
+      summary: 更新站点设置
+      description: 需要 `content:manage` 权限。
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                hero:
+                  type: object
+                stats:
+                  type: object
+                seo:
+                  type: object
+                featureToggles:
+                  type: object
+      responses:
+        '200':
+          description: 设置已更新
+  /content/testimonials:
+    get:
+      summary: 客户评价列表
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: 评价数据
+    post:
+      summary: 新增客户评价
+      description: 需要 `content:manage` 权限。
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [author, quote]
+              properties:
+                author:
+                  type: string
+                quote:
+                  type: string
+                role:
+                  type: string
+                avatarUrl:
+                  type: string
+                  format: uri
+                rating:
+                  type: integer
+      responses:
+        '201':
+          description: 评价已创建
+  /content/testimonials/{id}:
+    patch:
+      summary: 更新客户评价
+      description: 需要 `content:manage` 权限。
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '200':
+          description: 评价已更新
+    delete:
+      summary: 删除客户评价
+      description: 需要 `content:manage` 权限。
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: 评价已删除
+  /content/faqs:
+    get:
+      summary: FAQ 列表
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: FAQ 数据
+    post:
+      summary: 新增 FAQ
+      description: 需要 `content:manage` 权限。
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [question, answer]
+              properties:
+                question:
+                  type: string
+                answer:
+                  type: string
+      responses:
+        '201':
+          description: FAQ 已创建
+  /content/faqs/{id}:
+    patch:
+      summary: 更新 FAQ
+      description: 需要 `content:manage` 权限。
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '200':
+          description: FAQ 已更新
+    delete:
+      summary: 删除 FAQ
+      description: 需要 `content:manage` 权限。
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: FAQ 已删除
+  /public/home:
+    get:
+      summary: 官网首页内容
+      responses:
+        '200':
+          description: 官网模块数据
+  /public/services:
+    get:
+      summary: 官网服务列表
+      responses:
+        '200':
+          description: 服务数据
+  /public/photographers:
+    get:
+      summary: 官网摄影师列表
+      responses:
+        '200':
+          description: 摄影师数据
+  /public/portfolio:
+    get:
+      summary: 官网作品集
+      responses:
+        '200':
+          description: 作品集数据
+  /public/bookings:
+    post:
+      summary: 官网预约提交
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [clientName, clientEmail]
+              properties:
+                clientName:
+                  type: string
+                clientEmail:
+                  type: string
+                  format: email
+                clientPhone:
+                  type: string
+                eventDate:
+                  type: string
+                  format: date-time
+                venue:
+                  type: string
+                serviceId:
+                  type: string
+                photographerId:
+                  type: string
+                note:
+                  type: string
+      responses:
+        '201':
+          description: 预约提交成功
+  /public/bookings/{reference}/progress:
+    get:
+      summary: 官网预约进度查询
+      parameters:
+        - in: path
+          name: reference
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: code
+          required: true
+          schema:
+            type: string
+            description: 访问口令
+      responses:
+        '200':
+          description: 预约进度详情
