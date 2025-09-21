@@ -166,13 +166,13 @@ export function UsersPage() {
             columns={columns}
             data={data?.data || []}
             isLoading={isLoading}
-            pagination={
+            pagination={{
               page: data?.pagination.page || 1,
               pageSize: data?.pagination.pageSize || 6,
               totalPages: data?.pagination.totalPages || 1,
               total: data?.pagination.total || 0,
               onChange: ({ pageIndex }) => setPage(pageIndex + 1)
-            }
+            }}
           />
         </CardContent>
       </Card>

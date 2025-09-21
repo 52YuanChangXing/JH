@@ -193,7 +193,7 @@ export function ProjectsPage() {
             columns={columns}
             data={data?.data || []}
             isLoading={isLoading}
-            pagination={
+            pagination={{
               page: data?.pagination.page || 1,
               pageSize: data?.pagination.pageSize || 5,
               totalPages: data?.pagination.totalPages || 1,
@@ -201,7 +201,7 @@ export function ProjectsPage() {
               onChange: ({ pageIndex, pageSize }) => {
                 setPage(pageIndex + 1);
               }
-            }
+            }}
           />
         </CardContent>
       </Card>
