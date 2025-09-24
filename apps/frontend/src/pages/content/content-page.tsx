@@ -97,7 +97,7 @@ export function ContentPage() {
       );
       featureForm.reset({ features: features.join('\n') });
     }
-  }, [settingsQuery.data]);
+  }, [featureForm, heroForm, metricsForm, settingsQuery.data]);
 
   const heroMutation = useMutation({
     mutationFn: (values: z.infer<typeof heroSchema>) =>

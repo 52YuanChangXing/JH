@@ -1,5 +1,6 @@
 import { Prisma } from '@prisma/client';
 import createError from 'http-errors';
+
 import { prisma } from '../../lib/prisma.js';
 import { faqSchema, siteSettingSchema, testimonialSchema, updateFaqSchema, updateTestimonialSchema } from './content.schema.js';
 

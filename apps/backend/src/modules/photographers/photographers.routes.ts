@@ -1,4 +1,5 @@
 import { Router } from 'express';
+
 import { authorize } from '../../middleware/auth.js';
 import {
   createPhotographerHandler,

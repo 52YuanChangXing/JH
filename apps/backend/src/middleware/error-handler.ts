@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 import createError from 'http-errors';
+
 import { failure } from '../utils/http.js';
 
 export function notFound(req: Request, _res: Response, next: NextFunction) {

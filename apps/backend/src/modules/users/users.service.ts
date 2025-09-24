@@ -1,4 +1,5 @@
 import bcrypt from 'bcryptjs';
+
 import { prisma } from '../../lib/prisma.js';
 import { env } from '../../config/env.js';
 import { CreateUserInput, QueryUserInput, UpdateUserInput } from './users.schema.js';

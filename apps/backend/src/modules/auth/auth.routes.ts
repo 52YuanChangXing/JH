@@ -1,4 +1,5 @@
 import { Router } from 'express';
+
 import { authenticate, enrichUser } from '../../middleware/auth.js';
 import {
   loginHandler,

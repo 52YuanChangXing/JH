@@ -4,6 +4,7 @@ import helmet from 'helmet';
 import cookieParser from 'cookie-parser';
 import morgan from 'morgan';
 import path from 'path';
+
 import { errorHandler, notFound } from './middleware/error-handler.js';
 import { trace } from './middleware/trace.js';
 import { router as apiRouter } from './routes/index.js';

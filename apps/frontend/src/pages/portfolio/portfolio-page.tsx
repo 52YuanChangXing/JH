@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { ColumnDef } from '@tanstack/react-table';
 import { useForm } from 'react-hook-form';
@@ -65,7 +65,7 @@ export function PortfolioPage() {
     }
   });
 
-  const openCreate = () => {
+  const openCreate = useCallback(() => {
     setEditing(null);
     form.reset({
       title: '',
@@ -80,9 +80,9 @@ export function PortfolioPage() {
       photographerId: ''
     });
     setDialogOpen(true);
-  };
+  }, [form]);
 
-  const openEdit = (record: PortfolioItemRecord) => {
+  const openEdit = useCallback((record: PortfolioItemRecord) => {
     setEditing(record);
     form.reset({
       title: record.title,
@@ -97,7 +97,7 @@ export function PortfolioPage() {
       photographerId: record.photographer?.id || ''
     });
     setDialogOpen(true);
-  };
+  }, [form]);
 
   const mutation = useMutation({
     mutationFn: async (values: z.infer<typeof portfolioSchema>) => {
@@ -192,7 +192,7 @@ export function PortfolioPage() {
         )
       }
     ],
-    [deleteMutation]
+    [deleteMutation, openEdit]
   );
 
   const onSubmit = form.handleSubmit((values) => mutation.mutate(values));

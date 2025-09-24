@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { ColumnDef } from '@tanstack/react-table';
 import { DataTable } from '../../components/data-table';
@@ -43,13 +43,13 @@ export function UsersPage() {
     defaultValues: { email: '', password: '', displayName: '', roles: [] }
   });
 
-  const openCreate = () => {
+  const openCreate = useCallback(() => {
     setEditingUser(null);
     form.reset({ email: '', password: '', displayName: '', roles: [] });
     setDialogOpen(true);
-  };
+  }, [form]);
 
-  const openEdit = (user: UserRecord) => {
+  const openEdit = useCallback((user: UserRecord) => {
     setEditingUser(user);
     form.reset({
       email: user.email,
@@ -58,7 +58,7 @@ export function UsersPage() {
       roles: user.roles
     });
     setDialogOpen(true);
-  };
+  }, [form]);
 
   const mutation = useMutation({
     mutationFn: async (values: UserFormValues) => {
@@ -132,7 +132,7 @@ export function UsersPage() {
         )
       }
     ],
-    [deleteMutation]
+    [deleteMutation, openEdit]
   );
 
   const onSubmit = (values: UserFormValues) => {

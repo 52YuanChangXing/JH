@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { ColumnDef } from '@tanstack/react-table';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { DataTable } from '../../components/data-table';
@@ -68,7 +68,7 @@ export function ProjectsPage() {
     setDialogOpen(true);
   };
 
-  const openEditDialog = (project: Project) => {
+  const openEditDialog = useCallback((project: Project) => {
     setEditingProject(project);
     form.reset({
       title: project.title,
@@ -80,7 +80,7 @@ export function ProjectsPage() {
       notes: project.notes ?? ''
     });
     setDialogOpen(true);
-  };
+  }, [form]);
 
   const mutation = useMutation({
     mutationFn: async (values: ProjectFormValues) => {
@@ -198,7 +198,7 @@ export function ProjectsPage() {
               pageSize: data?.pagination.pageSize || 5,
               totalPages: data?.pagination.totalPages || 1,
               total: data?.pagination.total || 0,
-              onChange: ({ pageIndex, pageSize }) => {
+              onChange: ({ pageIndex }) => {
                 setPage(pageIndex + 1);
               }
             }}

@@ -1,24 +1,31 @@
 import { render, screen } from '@testing-library/react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { BrowserRouter } from 'react-router-dom';
+import { afterEach, vi } from 'vitest';
 import App from './App';
 import { AuthProvider } from './providers/auth-provider';
 import { ThemeProvider } from './providers/theme-provider';
+import { api } from './lib/api';
 
 describe('App shell', () => {
-  it('renders login page by default', () => {
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
+
+  it('renders login page by default', async () => {
     const queryClient = new QueryClient();
+    vi.spyOn(api, 'get').mockRejectedValue({ response: { status: 401 } });
     render(
-      <QueryClientProvider client={queryClient}>
-        <ThemeProvider>
-          <AuthProvider>
-            <BrowserRouter>
+      <BrowserRouter>
+        <QueryClientProvider client={queryClient}>
+          <ThemeProvider>
+            <AuthProvider>
               <App />
-            </BrowserRouter>
-          </AuthProvider>
-        </ThemeProvider>
-      </QueryClientProvider>
+            </AuthProvider>
+          </ThemeProvider>
+        </QueryClientProvider>
+      </BrowserRouter>
     );
-    expect(screen.getByText(/欢迎登录/)).toBeInTheDocument();
+    expect(await screen.findByText('后台登录')).toBeInTheDocument();
   });
 });

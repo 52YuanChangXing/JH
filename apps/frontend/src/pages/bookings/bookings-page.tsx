@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { ColumnDef } from '@tanstack/react-table';
 import { z } from 'zod';
@@ -93,7 +93,7 @@ export function BookingsPage() {
     }
   });
 
-  const openCreate = () => {
+  const openCreate = useCallback(() => {
     setCreationMode(true);
     setSelectedBookingId(null);
     form.reset({
@@ -108,9 +108,9 @@ export function BookingsPage() {
       photographerId: ''
     });
     setDialogOpen(true);
-  };
+  }, [form]);
 
-  const openDetails = async (booking: BookingRecord) => {
+  const openDetails = useCallback(async (booking: BookingRecord) => {
     setCreationMode(false);
     setSelectedBookingId(booking.id);
     form.reset({
@@ -125,7 +125,7 @@ export function BookingsPage() {
       photographerId: booking.photographerId || booking.photographer?.id || ''
     });
     setDialogOpen(true);
-  };
+  }, [form]);
 
   const createMutation = useMutation({
     mutationFn: createBooking,
@@ -203,7 +203,7 @@ export function BookingsPage() {
         )
       }
     ],
-    []
+    [openDetails]
   );
 
   const handleSubmit = form.handleSubmit((values) => {

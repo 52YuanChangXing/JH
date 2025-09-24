@@ -15,13 +15,14 @@ model User {
   avatarUrl     String?
   createdAt     DateTime       @default(now())
   updatedAt     DateTime       @updatedAt
-  roles         UserRole[]
-  auditLogs     AuditLog[]
-  refreshTokens RefreshToken[]
-  projects      Project[]      @relation("ProjectOwner")
-  sessions      Session[]      @relation("SessionOwner")
+  roles           UserRole[]
+  auditLogs       AuditLog[]
+  refreshTokens   RefreshToken[]
+  projects        Project[]        @relation("ProjectOwner")
+  sessions        Session[]        @relation("SessionOwner")
   updatedSettings SiteSetting[]
-  bookings      Booking[]      @relation("BookingOwner")
+  bookings        Booking[]        @relation("BookingOwner")
+  bookingProgress BookingProgress[] @relation("BookingProgressUpdatedBy")
 }
 
 model Role {
@@ -218,7 +219,7 @@ model BookingProgress {
   completedAt DateTime?
   note        String?
   updatedById String?
-  updatedBy   User?         @relation(fields: [updatedById], references: [id])
+  updatedBy   User?         @relation("BookingProgressUpdatedBy", fields: [updatedById], references: [id])
   booking     Booking       @relation(fields: [bookingId], references: [id], onDelete: Cascade)
   createdAt   DateTime      @default(now())
   updatedAt   DateTime      @updatedAt

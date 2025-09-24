@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { ColumnDef } from '@tanstack/react-table';
 import { z } from 'zod';
@@ -64,7 +64,7 @@ export function PhotographersPage() {
     }
   });
 
-  const openCreate = () => {
+  const openCreate = useCallback(() => {
     setEditing(null);
     form.reset({
       name: '',
@@ -80,9 +80,9 @@ export function PhotographersPage() {
       isActive: true
     });
     setDialogOpen(true);
-  };
+  }, [form]);
 
-  const openEdit = (record: PhotographerRecord) => {
+  const openEdit = useCallback((record: PhotographerRecord) => {
     setEditing(record);
     form.reset({
       name: record.name,
@@ -102,7 +102,7 @@ export function PhotographersPage() {
       isActive: record.isActive
     });
     setDialogOpen(true);
-  };
+  }, [form]);
 
   const mutation = useMutation({
     mutationFn: async (values: z.infer<typeof photographerSchema>) => {
@@ -204,7 +204,7 @@ export function PhotographersPage() {
         )
       }
     ],
-    [deleteMutation]
+    [deleteMutation, openEdit]
   );
 
   const onSubmit = form.handleSubmit((values) => mutation.mutate(values));

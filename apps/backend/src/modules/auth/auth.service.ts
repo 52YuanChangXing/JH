@@ -1,5 +1,6 @@
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
+
 import { prisma } from '../../lib/prisma.js';
 import { env } from '../../config/env.js';
 import { RegisterInput, LoginInput, RefreshInput } from './auth.schema.js';

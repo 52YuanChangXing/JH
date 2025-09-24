@@ -4,6 +4,7 @@ import YAML from 'yamljs';
 import { fileURLToPath } from 'url';
 import path from 'path';
 import fs from 'fs';
+
 import { env } from '../config/env.js';
 import { authenticate, authorize, enrichUser } from '../middleware/auth.js';
 import { authRouter } from '../modules/auth/auth.routes.js';

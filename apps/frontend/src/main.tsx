@@ -19,15 +19,15 @@ const queryClient = new QueryClient({
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
-    <QueryClientProvider client={queryClient}>
-      <ThemeProvider defaultTheme="light">
-        <AuthProvider>
-          <BrowserRouter>
+    <BrowserRouter>
+      <QueryClientProvider client={queryClient}>
+        <ThemeProvider defaultTheme="light">
+          <AuthProvider>
             <App />
-          </BrowserRouter>
-          <Toaster richColors position="top-right" />
-        </AuthProvider>
-      </ThemeProvider>
-    </QueryClientProvider>
+            <Toaster richColors position="top-right" />
+          </AuthProvider>
+        </ThemeProvider>
+      </QueryClientProvider>
+    </BrowserRouter>
   </React.StrictMode>
 );

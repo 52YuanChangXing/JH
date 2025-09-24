@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { ColumnDef } from '@tanstack/react-table';
 import { z } from 'zod';
@@ -60,7 +60,7 @@ export function ServicesPage() {
     }
   });
 
-  const openCreate = () => {
+  const openCreate = useCallback(() => {
     setEditing(null);
     form.reset({
       name: '',
@@ -74,9 +74,9 @@ export function ServicesPage() {
       isActive: true
     });
     setDialogOpen(true);
-  };
+  }, [form]);
 
-  const openEdit = (record: ServiceRecord) => {
+  const openEdit = useCallback((record: ServiceRecord) => {
     setEditing(record);
     form.reset({
       name: record.name,
@@ -90,7 +90,7 @@ export function ServicesPage() {
       isActive: true
     });
     setDialogOpen(true);
-  };
+  }, [form]);
 
   const mutation = useMutation({
     mutationFn: async (values: z.infer<typeof serviceSchema>) => {
@@ -168,7 +168,7 @@ export function ServicesPage() {
         )
       }
     ],
-    [deleteMutation]
+    [deleteMutation, openEdit]
   );
 
   const onSubmit = form.handleSubmit((values) => mutation.mutate(values));
